@@ -1,0 +1,355 @@
+---
+import Layout from "../layouts/Layout.astro";
+import DragonAnimation from "../components/DragonAnimation.astro";
+
+// In a real app, we'd fetch sponsors from microCMS here
+// import { getSponsors } from '../lib/microcms';
+// const sponsors = await getSponsors();
+---
+
+<Layout
+    title="MIRAIDO | ご支援のお願い"
+    description="地域課題解決型プロジェクトMIRAIDOへのご支援のお願い。皆様からの温かいご支援が、未来の技術者を育てます。"
+>
+    <!-- Full-screen Background Animation -->
+    <div class="fixed inset-0 z-0">
+        <DragonAnimation />
+    </div>
+
+    <main class="relative z-10 min-h-screen py-24 px-4 overflow-hidden">
+        <div class="container mx-auto max-w-4xl">
+            <!-- Header -->
+            <header class="text-center mb-16 opacity-0 animate-fade-in-up">
+                <h1
+                    class="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent mb-6"
+                >
+                    Sponsor"0"
+                </h1>
+                <p class="text-xl text-gray-300 font-light">
+                    パートナーシップのご案内<br />
+                    創造者たちへ、あなたの力を。<br />
+                    MIRAIDOプロジェクトは皆様のご支援により支えられています。
+                </p>
+            </header>
+
+            <!-- Corporate Benefits Section -->
+            <section class="mb-24 opacity-0 animate-fade-in-up delay-100">
+                <div
+                    class="bg-slate-900/60 border border-white/5 backdrop-blur-md rounded-3xl p-8 md:p-12"
+                >
+                    <h2
+                        class="text-2xl md:text-3xl font-bold text-white mb-8 text-center"
+                    >
+                        企業の皆様へ - 協賛のメリット
+                    </h2>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-6">
+                            <div class="benefit-item">
+                                <h3 class="text-xl font-bold text-accent mb-2">
+                                    CSR活動・SDGsへの貢献
+                                </h3>
+                                <p
+                                    class="text-gray-400 text-sm leading-relaxed"
+                                >
+                                    活動を通じて、<strong
+                                        >CSR（企業の社会的責任）活動</strong
+                                    >報告にご活用いただけます。
+                                    また、次世代教育支援や地域活性化への取り組みは、<strong
+                                        >SDGs（持続可能な開発目標）</strong
+                                    >の目標4「質の高い教育をみんなに」や目標11「住み続けられるまちづくりを」への貢献証明となります。
+                                </p>
+                            </div>
+
+                            <div class="benefit-item">
+                                <h3 class="text-xl font-bold text-accent mb-2">
+                                    地域活性化への参画
+                                </h3>
+                                <p
+                                    class="text-gray-400 text-sm leading-relaxed"
+                                >
+                                    熊野古道という歴史的な地での活動を通じて、<strong
+                                        >地域活性化</strong
+                                    >プロジェクトに参画いただけます。
+                                    地方創生への貢献企業として、その姿勢を広く社会にアピールすることができます。
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="benefit-item">
+                                <h3 class="text-xl font-bold text-accent mb-2">
+                                    次世代教育・STEM教育支援
+                                </h3>
+                                <p
+                                    class="text-gray-400 text-sm leading-relaxed"
+                                >
+                                    <strong>子供への教育支援</strong>や<strong
+                                        >STEM教育</strong
+                                    >（科学・技術・工学・数学）の推進企業としてブランディングが可能です。
+                                    未来の技術者を育てる企業としての認知度向上に繋がります。
+                                </p>
+                            </div>
+
+                            <div class="benefit-item">
+                                <h3 class="text-xl font-bold text-accent mb-2">
+                                    寄付・スポンサーシップ
+                                </h3>
+                                <p
+                                    class="text-gray-400 text-sm leading-relaxed"
+                                >
+                                    協賛金による支援は、企業価値の向上に直結します。
+                                    また、スポンサーとしてのロゴ掲出やイベントでの露出を通じて、多様なステークホルダーへのPR機会を提供いたします。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Usage of Funds Section -->
+            <section class="mb-24 opacity-0 animate-fade-in-up delay-150">
+                <div
+                    class="bg-slate-900/60 border border-white/5 backdrop-blur-md rounded-3xl p-8 md:p-12"
+                >
+                    <h2
+                        class="text-2xl md:text-3xl font-bold text-white mb-8 text-center"
+                    >
+                        協賛金の使途について
+                    </h2>
+                    <p
+                        class="text-gray-300 text-center mb-12 max-w-2xl mx-auto leading-relaxed"
+                    >
+                        皆様からお預かりした協力金に関しましては、次の用途に限定し使用させていただきます。
+                    </p>
+
+                    <div class="grid grid-cols-1 gap-6">
+                        <div
+                            class="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-accent/30 transition-colors"
+                        >
+                            <div
+                                class="text-2xl text-accent font-mono font-bold"
+                            >
+                                01
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white mb-2">
+                                    ロボット大会・アプリコンテスト等イベントの開催費用
+                                </h3>
+                                <p class="text-gray-400 text-sm">
+                                    イベントの運営費、会場設営費、機材レンタル費等の諸経費として。
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-accent/30 transition-colors"
+                        >
+                            <div
+                                class="text-2xl text-accent font-mono font-bold"
+                            >
+                                02
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white mb-2">
+                                    ロボット/プログラミング教育の普及
+                                </h3>
+                                <p class="text-gray-400 text-sm">
+                                    ロボットの購入や、小・中・高校生向けワークショップ開催のための運営費用として。
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-accent/30 transition-colors"
+                        >
+                            <div
+                                class="text-2xl text-accent font-mono font-bold"
+                            >
+                                03
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white mb-2">
+                                    金融教育・アントレプレナーシップの養成
+                                </h3>
+                                <p class="text-gray-400 text-sm">
+                                    小学生から社会人を対象とした、お金の教育や起業家精神を養うワークショップの開催費用として。
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-accent/30 transition-colors"
+                        >
+                            <div
+                                class="text-2xl text-accent font-mono font-bold"
+                            >
+                                04
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white mb-2">
+                                    MIRAIDOプロジェクト 活動資金
+                                </h3>
+                                <p class="text-gray-400 text-sm">
+                                    今後開催されるプロジェクト関連イベントの企画・運営、広報活費として。
+                                </p>
+                            </div>
+                        </div>
+                        <div
+                            class="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:border-accent/30 transition-colors"
+                        >
+                            <div
+                                class="text-2xl text-accent font-mono font-bold"
+                            >
+                                05
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-white mb-2">
+                                    地域貢献・CSR活動の推進
+                                </h3>
+                                <p class="text-gray-400 text-sm">
+                                    地域社会への還元や、持続可能な社会づくり（SDGs）に貢献するための活動費用として。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-8 border-t border-white/10 text-center">
+                        <p class="text-sm text-gray-500">
+                            ※
+                            決算報告につきましては、年度末に公式サイトおよび活動報告書にて透明性を持って開示いたします。
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Funding Tiers (Example) -->
+            <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+                <!-- Platinum -->
+                <div
+                    class="tier-card p-8 rounded-2xl bg-slate-900/80 border border-slate-700 backdrop-blur-md hover:border-accent/60 transition-all duration-300 transform hover:-translate-y-2 group opacity-0 animate-fade-in-up delay-200"
+                >
+                    <div
+                        class="text-3xl font-bold text-white mb-2 group-hover:text-accent transition-colors"
+                    >
+                        PLATINUM
+                    </div>
+                    <div class="text-accent text-xl font-mono mb-6">
+                        ¥500,000~
+                    </div>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li class="flex items-center gap-2">
+                            <span class="text-accent">✓</span> サイトトップへのロゴ掲載
+                            (特大)
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-accent">✓</span> イベントでの特別ブース出展権
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-accent">✓</span> メイキング映像へのクレジット
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Gold -->
+                <div
+                    class="tier-card p-8 rounded-2xl bg-slate-900/80 border border-slate-700 backdrop-blur-md hover:border-yellow-500/60 transition-all duration-300 transform hover:-translate-y-2 group opacity-0 animate-fade-in-up delay-300"
+                >
+                    <div
+                        class="text-3xl font-bold text-white mb-2 group-hover:text-yellow-400 transition-colors"
+                    >
+                        GOLD
+                    </div>
+                    <div class="text-yellow-400 text-xl font-mono mb-6">
+                        ¥100,000~
+                    </div>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li class="flex items-center gap-2">
+                            <span class="text-yellow-400">✓</span> サイトへのロゴ掲載
+                            (大)
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <span class="text-yellow-400">✓</span> イベントパンフレットへの掲載
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Silver -->
+                <div
+                    class="tier-card p-8 rounded-2xl bg-slate-900/80 border border-slate-700 backdrop-blur-md hover:border-slate-400 transition-all duration-300 transform hover:-translate-y-2 group opacity-0 animate-fade-in-up delay-400"
+                >
+                    <div
+                        class="text-3xl font-bold text-white mb-2 group-hover:text-slate-300 transition-colors"
+                    >
+                        SILVER
+                    </div>
+                    <div class="text-slate-300 text-xl font-mono mb-6">
+                        ¥50,000~
+                    </div>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li class="flex items-center gap-2">
+                            <span class="text-slate-300">✓</span> サイトへのロゴ掲載
+                            (中)
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Bronze / Personal -->
+                <div
+                    class="tier-card p-8 rounded-2xl bg-slate-900/80 border border-slate-700 backdrop-blur-md hover:border-orange-400 transition-all duration-300 transform hover:-translate-y-2 group opacity-0 animate-fade-in-up delay-500"
+                >
+                    <div
+                        class="text-3xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors"
+                    >
+                        PERSONAL
+                    </div>
+                    <div class="text-orange-400 text-xl font-mono mb-6">
+                        ¥10,000~
+                    </div>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li class="flex items-center gap-2">
+                            <span class="text-orange-400">✓</span> 支援者リストへのお名前掲載
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <section class="text-center opacity-0 animate-fade-in-up delay-700">
+                <a
+                    href="/contact/sponsor"
+                    class="inline-block px-12 py-5 bg-gradient-to-r from-accent to-blue-600 text-white font-bold text-lg rounded-full hover:shadow-[0_0_30px_rgba(14,165,233,0.5)] transition-all duration-300 transform hover:scale-105"
+                >
+                    お問い合わせ・お申し込み
+                </a>
+                <p class="mt-4 text-gray-400 text-sm">
+                    まずはメールフォームよりお気軽にご相談ください。
+                </p>
+                <div class="mt-8">
+                    <a
+                        href="/"
+                        class="text-gray-500 hover:text-white transition-colors underline decoration-dotted"
+                        >トップページに戻る</a
+                    >
+                </div>
+            </section>
+        </div>
+    </main>
+</Layout>
+
+<script>
+    import { gsap } from "gsap";
+
+    // Simple entry animations
+    gsap.to(".animate-fade-in-up", {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.1,
+        ease: "power3.out",
+    });
+</script>
+
+<style>
+    .animate-fade-in-up {
+        transform: translateY(2rem);
+        opacity: 0;
+    }
+</style>

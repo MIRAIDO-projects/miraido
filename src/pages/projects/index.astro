@@ -1,0 +1,168 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import DragonAnimation from "../../components/DragonAnimation.astro";
+import { getProjects } from "../../lib/microcms";
+import type { Project } from "../../types/microcms";
+
+// Fetch projects from microCMS
+const { contents: projects } = await getProjects();
+
+// Mock Data if API key is missing or no content
+const displayProjects: Project[] = projects.length > 0 ? projects : [
+    {
+        id: "1",
+        title: "ROBO MISSION",
+        description: "自律型ロボットで課題を解決する競技。子供たちのプログラミングスキルと問題解決能力を競います。",
+        publishedAt: "2025-01-01",
+        updatedAt: "2025-01-01",
+        createdAt: "2025-01-01",
+        revisedAt: "2025-01-01",
+        category: [{ id: "c1", name: "教育" }] as any,
+    },
+    {
+        id: "2",
+        title: "FUTURE INNOVATION",
+        description: "地域課題を解決する新しいアイデアを形にするプロジェクト。テクノロジーと創造力を組み合わせます。",
+        publishedAt: "2025-01-02",
+        updatedAt: "2025-01-02",
+        createdAt: "2025-01-02",
+        revisedAt: "2025-01-02",
+        category: [{ id: "c2", name: "イノベーション" }] as any,
+    },
+    {
+        id: "3",
+        title: "KUMANO KODO REBORN",
+        description: "世界遺産熊野古道の保全と活用をテクノロジーで支援。過去と未来をつなぐ新しい試みです。",
+        publishedAt: "2025-01-03",
+        updatedAt: "2025-01-03",
+        createdAt: "2025-01-03",
+        revisedAt: "2025-01-03",
+        category: [{ id: "c3", name: "文化" }, { id: "c2", name: "地域" }] as any,
+    },
+    {
+        id: "4",
+        title: "AI ART CAMP",
+        description: "生成AIを活用して地域のアートを創造するキャンプ。テクノロジーと感性の融合を目指します。",
+        publishedAt: "2025-02-01",
+        updatedAt: "2025-02-01",
+        createdAt: "2025-02-01",
+        revisedAt: "2025-02-01",
+        category: [{ id: "c4", name: "アート" }] as any,
+    }
+];
+---
+
+<Layout
+    title="PROJECTS | MIRAIDO"
+    description="MIRAIDOが取り組む様々なプロジェクトをご紹介します。"
+>
+    <!-- Full-screen Background Animation -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <DragonAnimation />
+    </div>
+
+    <main class="relative z-10 min-h-screen py-24 px-4 overflow-hidden">
+        <div class="container mx-auto max-w-6xl">
+            <!-- Header -->
+            <header class="text-center mb-20 opacity-0 animate-fade-in-up">
+                <h1
+                    class="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent mb-6"
+                >
+                    PROJECTS
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 font-light tracking-wide">
+                    現在進行中のプロジェクト
+                </p>
+            </header>
+
+            <!-- Projects Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {displayProjects.map((project, index) => (
+                    <a href={project.url || `/projects/${project.id}`} class={`block group h-full opacity-0 animate-fade-in-up delay-${(index % 5) * 100 + 200}`}>
+                        <article class="h-full flex flex-col bg-slate-900/60 rounded-2xl overflow-hidden border border-white/10 hover:border-accent/50 backdrop-blur-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-accent/10">
+                            <!-- Image Area -->
+                            <div class="aspect-video bg-slate-800/50 relative overflow-hidden group-hover:brightness-110 transition-all">
+                                {project.mainImage ? (
+                                    <img src={project.mainImage.url} alt={project.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+                                ) : (
+                                    <div class="absolute inset-0 flex items-center justify-center text-4xl text-white/20 group-hover:text-accent/50 transition-colors">
+                                        🚀
+                                    </div>
+                                )}
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-60"></div>
+                                {/* Category Badges */}
+                                <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+                                    {(Array.isArray(project.category) ? project.category : project.category ? [project.category] : []).map((cat: any) => (
+                                        <span class="bg-white/90 backdrop-blur-sm text-slate-900 text-xs px-3 py-1 rounded-full border border-white/20 font-bold shadow-sm">
+                                        {cat.name}
+                                    </span>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            <!-- Content Area -->
+                            <div class="p-6 md:p-8 flex-1 flex flex-col">
+                                <h2 class="text-2xl font-bold text-white mb-4 group-hover:text-accent transition-colors">
+                                    {project.title}
+                                </h2>
+                                <p class="text-gray-400 text-sm leading-relaxed mb-6 flex-1 line-clamp-3">
+                                    {project.description}
+                                </p>
+                                <div class="flex items-center text-accent text-sm font-bold group-hover:tracking-wider transition-all">
+                                    VIEW MORE <span class="ml-2 transform group-hover:translate-x-1 transition-transform">→</span>
+                                </div>
+                            </div>
+                        </article>
+                    </a>
+                ))}
+            </div>
+
+            <!-- Footer Navigation -->
+            <div class="mt-20 text-center opacity-0 animate-fade-in-up delay-700">
+                <a
+                    href="/"
+                    class="inline-flex items-center text-gray-400 hover:text-white transition-colors gap-2 group"
+                >
+                    <span class="transform group-hover:-translate-x-1 transition-transform">←</span>
+                    TOPページに戻る
+                </a>
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animations
+    const items = document.querySelectorAll(".animate-fade-in-up");
+    
+    if(items.length > 0) {
+        gsap.fromTo(items, 
+            {
+                y: 50,
+                opacity: 0,
+                scale: 0.95
+            },
+            {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                stagger: 0.1,
+                ease: "power4.out",
+                scrollTrigger: {
+                    trigger: ".container",
+                    start: "top 85%",
+                }
+            }
+        );
+    }
+</script>
+
+<style>
+
+</style>

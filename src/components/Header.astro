@@ -1,0 +1,199 @@
+---
+
+---
+
+<header class="fixed top-0 left-0 w-full z-50 pointer-events-none">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <!-- Logo (Optional, if needed in header) -->
+        <a
+            href="/"
+            class="block w-48 md:w-64 z-50 relative pointer-events-auto"
+        >
+            <img
+                src="/images/logo-white.svg"
+                alt="MIRAIDO"
+                class="w-full h-auto"
+            />
+        </a>
+
+        <!-- Hamburger Button -->
+        <button
+            id="menu-toggle"
+            class="pointer-events-auto z-50 group w-12 h-12 flex flex-col justify-center items-end gap-1.5 focus:outline-none"
+        >
+            <span
+                class="w-8 h-0.5 bg-white transform transition-transform origin-right group-hover:bg-accent hamburger-line line1"
+            ></span>
+            <span
+                class="w-6 h-0.5 bg-white transform transition-transform origin-right group-hover:bg-accent hamburger-line line2"
+            ></span>
+            <span
+                class="w-4 h-0.5 bg-white transform transition-transform origin-right group-hover:bg-accent hamburger-line line3"
+            ></span>
+        </button>
+    </div>
+
+    <!-- Full Screen Menu Overlay -->
+    <nav
+        id="menu-overlay"
+        class="fixed inset-0 bg-primary/95 backdrop-blur-xl z-40 opacity-0 pointer-events-none flex items-center justify-center"
+    >
+        <!-- Menu Content -->
+        <div class="text-center space-y-8">
+            <div class="overflow-hidden">
+                <a
+                    href="/"
+                    class="menu-item block text-4xl md:text-6xl font-bold text-white hover:text-accent transition-colors transform translate-y-full"
+                >
+                    Home
+                </a>
+            </div>
+            <div class="overflow-hidden">
+                <a
+                    href="/news"
+                    class="menu-item block text-4xl md:text-6xl font-bold text-white hover:text-accent transition-colors transform translate-y-full"
+                >
+                    News
+                </a>
+            </div>
+            <div class="overflow-hidden">
+                <a
+                    href="/projects"
+                    class="menu-item block text-4xl md:text-6xl font-bold text-white hover:text-accent transition-colors transform translate-y-full"
+                >
+                    Projects
+                </a>
+            </div>
+            <div class="overflow-hidden">
+                <a
+                    href="/blogs"
+                    class="menu-item block text-4xl md:text-6xl font-bold text-white hover:text-accent transition-colors transform translate-y-full"
+                >
+                    Blog
+                </a>
+            </div>
+            <div class="overflow-hidden">
+                <a
+                    href="/sponsor"
+                    class="menu-item block text-4xl md:text-6xl font-bold text-accent hover:text-white transition-colors transform translate-y-full"
+                >
+                    Sponsor"0"
+                </a>
+            </div>
+            <div class="overflow-hidden">
+                <a
+                    href="/#contact"
+                    class="menu-item block text-4xl md:text-6xl font-bold text-white hover:text-accent transition-colors transform translate-y-full"
+                >
+                    ContactUs
+                </a>
+            </div>
+        </div>
+
+        <!-- Decorative Background Text -->
+        <div
+            class="absolute inset-0 z-[-1] overflow-hidden pointer-events-none opacity-5 flex items-center justify-center"
+        >
+            <span class="text-[40vw] font-bold text-white select-none"
+                >MIRAIDO</span
+            >
+        </div>
+    </nav>
+</header>
+
+<script>
+    import { gsap } from "gsap";
+
+    const menuToggle = document.getElementById("menu-toggle");
+    const menuOverlay = document.getElementById("menu-overlay");
+    const menuItems = document.querySelectorAll(".menu-item");
+
+    let isMenuOpen = false;
+
+    if (menuToggle && menuOverlay) {
+        menuToggle.addEventListener("click", () => {
+            isMenuOpen = !isMenuOpen;
+
+            if (isMenuOpen) {
+                // Open Animation
+
+                // 1. Animate Icon to X
+                gsap.to(".line1", {
+                    rotate: 45,
+                    y: 1,
+                    width: "2rem",
+                    duration: 0.3,
+                });
+                gsap.to(".line2", { opacity: 0, duration: 0.3 });
+                gsap.to(".line3", {
+                    rotate: -45,
+                    y: -1,
+                    width: "2rem",
+                    duration: 0.3,
+                });
+
+                // 2. Show Overlay
+                gsap.to(menuOverlay, {
+                    opacity: 1,
+                    pointerEvents: "auto",
+                    duration: 0.5,
+                    ease: "power2.out",
+                });
+
+                // 3. Stagger Menu Items
+                gsap.to(menuItems, {
+                    y: 0,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: "power3.out",
+                    delay: 0.2,
+                });
+            } else {
+                // Close Animation
+
+                // 1. Reset Icon
+                gsap.to(".line1", {
+                    rotate: 0,
+                    y: 0,
+                    width: "2rem",
+                    duration: 0.3,
+                });
+                gsap.to(".line2", {
+                    opacity: 1,
+                    width: "1.5rem",
+                    duration: 0.3,
+                });
+                gsap.to(".line3", {
+                    rotate: 0,
+                    y: 0,
+                    width: "1rem",
+                    duration: 0.3,
+                });
+
+                // 2. Hide Menu Items (slide down)
+                gsap.to(menuItems, {
+                    y: "100%",
+                    duration: 0.5,
+                    ease: "power2.in",
+                    onComplete: () => {
+                        // 3. Hide Overlay after items are gone
+                        gsap.to(menuOverlay, {
+                            opacity: 0,
+                            pointerEvents: "none",
+                            duration: 0.3,
+                        });
+                    },
+                });
+            }
+        });
+
+        // Close menu when a link is clicked
+        menuItems.forEach((item) => {
+            item.addEventListener("click", () => {
+                if (isMenuOpen) {
+                    menuToggle.click();
+                }
+            });
+        });
+    }
+</script>

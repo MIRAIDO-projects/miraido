@@ -1,0 +1,78 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+  publishedAt?: string;
+}
+
+const { title, description, image = '/og-image.png', type = 'website', publishedAt } = Astro.props;
+
+const siteName = 'MIRAIDO';
+const siteUrl = Astro.site ? Astro.site.toString() : 'https://miraido.jp'; // fallback
+const url = new URL(Astro.url.pathname, siteUrl);
+const ogImage = new URL(image, siteUrl);
+
+// JSON-LD
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "MIRAIDO",
+  "url": siteUrl,
+  "logo": new URL("/logo.png", siteUrl).toString(),
+  "sameAs": [
+    // Add social links here if available
+  ]
+};
+
+const articleSchema = type === 'article' ? {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "image": ogImage.toString(),
+  "datePublished": publishedAt,
+  "author": {
+    "@type": "Organization",
+    "name": "MIRAIDO"
+  }
+} : null;
+
+const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": siteUrl
+        }
+        // Ideally we'd dynamically add current page here
+    ]
+};
+---
+
+<title>{title} | {siteName}</title>
+<meta name="description" content={description} />
+<meta name="viewport" content="width=device-width" />
+<link rel="canonical" href={url} />
+
+<!-- OGP -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={type} />
+<meta property="og:url" content={url} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:site_name" content={siteName} />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify(organizationSchema)} />
+{articleSchema && <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />}
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />

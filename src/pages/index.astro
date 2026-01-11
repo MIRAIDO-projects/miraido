@@ -1,11 +1,968 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import DragonAnimation from "../components/DragonAnimation.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { getProjects, getBlogs, getNews, getSponsors } from "../lib/microcms";
+import type { Project, Blog, News, Sponsor } from "../types/microcms";
+
+// Fetch data from microCMS
+const { contents: projects } = await getProjects();
+const { contents: blogs } = await getBlogs();
+const { contents: news } = await getNews();
+const { contents: sponsors } = await getSponsors();
+
+// Mock Data: Projects
+const displayProjects: Project[] = projects.length > 0 ? projects : [
+    {
+        id: "1",
+        title: "ROBO MISSION",
+        description: "自律型ロボットで課題を解決する競技。子供たちのプログラミングスキルと問題解決能力を競います。",
+        publishedAt: "2025-01-01",
+        updatedAt: "2025-01-01",
+        createdAt: "2025-01-01",
+        revisedAt: "2025-01-01",
+        category: { id: "c1", name: "教育" } as any,
+    },
+    {
+        id: "2",
+        title: "FUTURE INNOVATION",
+        description: "地域課題を解決する新しいアイデアを形にするプロジェクト。テクノロジーと創造力を組み合わせます。",
+        publishedAt: "2025-01-02",
+        updatedAt: "2025-01-02",
+        createdAt: "2025-01-02",
+        revisedAt: "2025-01-02",
+        category: { id: "c2", name: "イノベーション" } as any,
+    },
+    {
+        id: "3",
+        title: "KUMANO KODO REBORN",
+        description: "世界遺産熊野古道の保全と活用をテクノロジーで支援。過去と未来をつなぐ新しい試みです。",
+        publishedAt: "2025-01-03",
+        updatedAt: "2025-01-03",
+        createdAt: "2025-01-03",
+        revisedAt: "2025-01-03",
+        category: { id: "c3", name: "文化" } as any,
+    }
+];
+
+// Mock Data: News
+const displayNews: News[] = news.length > 0 ? news : [
+    {
+        id: "1",
+        title: "MIRAIDOプロジェクト始動！",
+        category: { id: "info", name: "お知らせ" },
+        content: "",
+        publishedAt: "2025-04-01",
+        updatedAt: "2025-04-01",
+        createdAt: "2025-04-01",
+        revisedAt: "2025-04-01",
+    },
+    {
+        id: "2",
+        title: "第1回 ロボットプログラミング体験会開催決定",
+        category: { id: "event", name: "イベント" },
+        content: "",
+        publishedAt: "2025-04-15",
+        updatedAt: "2025-04-15",
+        createdAt: "2025-04-15",
+        revisedAt: "2025-04-15",
+    },
+    {
+        id: "3",
+        title: "スポンサー募集を開始しました",
+        category: { id: "info", name: "お知らせ" },
+        content: "",
+        publishedAt: "2025-05-01",
+        updatedAt: "2025-05-01",
+        createdAt: "2025-05-01",
+        revisedAt: "2025-05-01",
+    }
+];
+
+// Mock Data: Blogs
+const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
+    {
+        id: "1",
+        title: "子供たちの「未来への扉」を開くために",
+        category: ["理念", "教育"],
+        content: "",
+        publishedAt: "2025-04-10",
+        updatedAt: "2025-04-10",
+        createdAt: "2025-04-10",
+        revisedAt: "2025-04-10",
+        thumbnail: { url: "", height: 100, width: 100 }
+    },
+    {
+        id: "2",
+        title: "熊野古道と最新テクノロジーの融合",
+        category: ["テクノロジー", "地域"],
+        content: "",
+        publishedAt: "2025-04-20",
+        updatedAt: "2025-04-20",
+        createdAt: "2025-04-20",
+        revisedAt: "2025-04-20",
+        thumbnail: { url: "", height: 100, width: 100 }
+    },
+     {
+        id: "3",
+        title: "ロボット大会レポート：熱き戦いの記録",
+        category: ["レポート", "イベント"],
+        content: "",
+        publishedAt: "2025-05-05",
+        updatedAt: "2025-05-05",
+        createdAt: "2025-05-05",
+        revisedAt: "2025-05-05",
+        thumbnail: { url: "", height: 100, width: 100 }
+    }
+];
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+	title="MIRAIDO | 未来を共に創る"
+	description="地域課題解決型プロジェクトMIRAIDO。子供×ロボット×未来をテーマに、次世代の技術者育成と地域活性化を目指します。"
+>
+	<!-- Full-screen Background Animation -->
+	<div class="fixed inset-0 z-0 pointer-events-none">
+		<DragonAnimation />
+	</div>
+
+	<main class="relative z-10 overflow-hidden">
+		<!-- Hero Section -->
+		<section
+			class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden"
+		>
+			<!-- Abstract Background Elements -->
+			<div class="absolute inset-0 z-0 opacity-30 pointer-events-none">
+				<div
+					class="absolute top-1/4 left-1/4 w-96 h-96 bg-accent rounded-full mix-blend-screen filter blur-[100px] animate-pulse-slow"
+				>
+				</div>
+				<div
+					class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-[100px] animate-pulse-slow delay-1000"
+				>
+				</div>
+			</div>
+
+			<!-- Background Vertical Text Animation (Tensho style simulation) -->
+			<div
+				class="absolute inset-0 z-0 flex items-start justify-center pt-10 pointer-events-none select-none overflow-hidden"
+			>
+				<div
+					class="vertical-text-container relative w-full h-full flex items-start justify-center"
+				>
+					<div
+						class="vertical-text kodo absolute text-[30vw] md:text-[35vw] font-black leading-none opacity-0"
+						style="writing-mode: vertical-rl; text-orientation: upright; font-family: 'Zen Old Mincho', serif;"
+					>
+						古道
+					</div>
+					<div
+						class="vertical-text miraido absolute text-[30vw] md:text-[35vw] font-black leading-none opacity-0"
+						style="writing-mode: vertical-rl; text-orientation: upright; font-family: 'Zen Old Mincho', serif;"
+					>
+						未来道
+					</div>
+				</div>
+			</div>
+
+			<div class="container mx-auto px-4 z-10 text-center relative">
+				<!-- Intro Sequence Container -->
+				<div
+					class="intro-sequence absolute inset-0 flex items-center justify-center pointer-events-none"
+				>
+					<span
+						class="intro-word intro-word-1 absolute text-6xl md:text-8xl font-bold text-accent opacity-0"
+						>KODO</span
+					>
+					<span
+						class="intro-word intro-word-2 absolute text-6xl md:text-8xl font-bold text-white opacity-0"
+						>TO</span
+					>
+					<span
+						class="intro-word intro-word-3 absolute text-6xl md:text-8xl font-bold text-teal-400 opacity-0"
+						>MIRAIDO</span
+					>
+				</div>
+
+				<h1
+					class="hero-title text-5xl md:text-7xl font-bold tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent opacity-0"
+				>
+					MIRAIDO
+				</h1>
+
+				<div class="hero-subtitle-container mb-12 space-y-4">
+					<p
+						class="hero-subtitle-en text-xl md:text-2xl font-light tracking-widest opacity-0"
+					>
+						CHILDREN × AI × ROBOTS × FUTURE
+					</p>
+				</div>
+
+				<div class="hero-cta opacity-0 transform translate-y-4">
+					<a
+						href="/sponsor"
+						class="inline-block px-8 py-4 bg-accent text-primary font-bold rounded-full hover:bg-white transition-colors duration-300 shadow-lg shadow-accent/25"
+					>
+						プロジェクトを支援する
+					</a>
+				</div>
+			</div>
+
+			<!-- Scroll Indicator -->
+			<div
+				class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce"
+			>
+				<div
+					class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2"
+				>
+					<div class="w-1 h-3 bg-accent rounded-full"></div>
+				</div>
+			</div>
+		</section>
+
+        <!-- News Section -->
+        <section id="news" class="py-12 bg-slate-900 border-b border-white/10 relative z-20">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row items-start md:items-center gap-8">
+                    <div class="md:w-32 shrink-0">
+                        <h2 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent">NEWS</h2>
+                    </div>
+                    <div class="flex-1 w-full overflow-hidden">
+                        <div class="news-list space-y-4 md:space-y-0 md:space-x-8 md:flex md:animate-none">
+                             {displayNews.slice(0, 3).map((item) => (
+                                <a href={`/news/${item.id}`} class="block group">
+                                    <div class="flex items-center gap-4 text-sm text-gray-400 group-hover:text-white transition-colors">
+                                        <span class="font-mono text-accent/80">{new Date(item.publishedAt).toLocaleDateString('ja-JP')}</span>
+                                        <span class="px-2 py-0.5 border border-white/20 rounded text-xs">{item.category?.name}</span>
+                                        <span class="line-clamp-1">{item.Title}</span>
+                                    </div>
+                                </a>
+                             ))}
+                        </div>
+                    </div>
+                     <div class="md:w-24 shrink-0 text-right hidden md:block">
+                        <a href="/news" class="text-sm font-bold text-gray-500 hover:text-accent transition-colors">VIEW ALL</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+		<!-- What is MIRAIDO Section -->
+		<section
+			id="what"
+			class="py-32 bg-primary/80 backdrop-blur-sm relative overflow-hidden"
+		>
+			<!-- Background Decoration -->
+			<div class="absolute inset-0 opacity-10 pointer-events-none">
+				<div
+					class="absolute -right-20 top-20 w-96 h-96 bg-accent rounded-full filter blur-[100px]"
+				>
+				</div>
+				<div
+					class="absolute -left-20 bottom-20 w-96 h-96 bg-blue-600 rounded-full filter blur-[100px]"
+				>
+				</div>
+			</div>
+
+			<div
+				class="container mx-auto px-4 relative z-10 max-w-4xl text-center"
+			>
+				<div class="what-content opacity-0">
+					<h2
+						class="text-3xl md:text-5xl font-bold mb-12 tracking-tight"
+					>
+						<span
+							class="inline-block bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent"
+						>
+							古来の巡礼の道は
+						</span>
+						<br class="md:hidden" />
+						<span class="inline-block text-white mt-2 md:mt-0">
+							宇宙へ羽ばたくミライ道へ
+						</span>
+					</h2>
+
+					<div
+						class="space-y-8 text-lg md:text-xl font-light leading-relaxed text-gray-200"
+					>
+						<p class="what-text transform translate-y-4 opacity-0">
+							そんな願いを込めて立ち上げたプロジェクトが<br />
+							<span class="font-bold text-accent text-2xl"
+								>『MIRAIDO（ミライ道・ミライ扉・ミライDo）』</span
+							>です
+						</p>
+
+						<div
+							class="py-8 what-text transform translate-y-4 opacity-0"
+						>
+							<p
+								class="text-2xl md:text-4xl font-bold tracking-widest mb-4"
+							>
+								”やる” か ”やらない" か
+							</p>
+							<p class="text-sm md:text-base text-gray-400">
+								〜 Do or Do Not 〜
+							</p>
+						</div>
+
+						<p class="what-text transform translate-y-4 opacity-0">
+							その選択の連続が人生です。<br />
+							やらずに後悔するのも、やりきって達成感を得るのも、<br
+							/>
+							やってやらなきゃよかったと後悔するのも、やったけど物足りなさが残るのも、<br
+							/>
+							全てがその人の生き様で人生の糧となります。
+						</p>
+
+						<p class="what-text transform translate-y-4 opacity-0">
+							まだまだ自然の残る熊野の地でさえ<br />
+							気候変動による影響はひしひしと感じます
+						</p>
+
+						<div
+							class="what-text transform translate-y-4 opacity-0"
+						>
+							<p class="mb-6">
+								"もう遅い" "まだ大丈夫" そんな議論よりも<br />
+								シンプルに <span class="text-accent font-bold"
+									>”やる”</span
+								> か <span class="text-gray-500 font-bold"
+									>”やらない”</span
+								> かです
+							</p>
+							<p class="text-2xl font-bold text-white mb-8">
+								さぁ、今すぐできることから始めましょう！
+							</p>
+							<div
+								class="inline-block px-8 py-3 border border-accent/50 rounded-full bg-accent/10 backdrop-blur-sm"
+							>
+								【MIRAIDO】それは私たちの第一歩です
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+        <!-- Dynamic Projects Section -->
+        <section id="projects" class="py-32 bg-slate-900/60 backdrop-blur-md relative">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16 opacity-0 project-header">
+                    <h2 class="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent mb-4">
+                        PROJECTS
+                    </h2>
+                    <p class="text-gray-400">現在進行中のプロジェクト</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {displayProjects.map((project, index) => (
+                        <a href={project.url || `/projects/${project.id}`} class="project-card group block relative bg-slate-800/50 rounded-2xl overflow-hidden border border-white/10 hover:border-accent/50 transition-all duration-300 transform hover:-translate-y-2 opacity-0">
+                            <!-- Image Placeholder or Actual Image -->
+                             <div class="aspect-video bg-slate-700/50 relative overflow-hidden">
+                                {project.mainImage ? (
+                                    <img src={project.mainImage.url} alt={project.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+                                ) : (
+                                    <div class="absolute inset-0 flex items-center justify-center text-4xl text-white/20">
+                                        🚀
+                                    </div>
+                                )}
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-60"></div>
+                                {/* Category Badges */}
+                                <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+                                     {(Array.isArray(project.category) ? project.category : project.category ? [project.category] : []).map((cat: any) => (
+                                        <span class="bg-white/90 backdrop-blur-sm text-slate-900 text-xs px-3 py-1 rounded-full border border-white/20 font-bold shadow-sm">
+                                            {cat.name}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                            
+                            <div class="p-6 relative z-10 flex flex-col h-full text-left">
+                                <h3 class="text-xl font-bold text-white mb-3 group-hover:text-teal-400 transition-colors">
+                                    {project.title}
+                                </h3>
+                                <p class="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3 flex-1">
+                                    {project.description}
+                                </p>
+                                <div class="mt-4 flex items-center text-teal-400 text-sm font-bold group-hover:underline">
+                                    VIEW MORE <span class="ml-2">→</span>
+                                </div>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+                </div>
+
+                 <div class="text-center mt-12 opacity-0 project-footer">
+                     <a href="/projects" class="inline-block px-8 py-3 border border-white/20 rounded-full hover:bg-white/10 transition-colors text-sm font-bold tracking-widest text-accent hover:text-white">
+                        VIEW MORE
+                    </a>
+                 </div>
+            </div>
+        </section>
+
+
+
+        <!-- Blog Section -->
+        <section id="blogs" class="py-32 bg-primary/30 relative">
+             <div class="container mx-auto px-4">
+                <div class="text-center mb-16 opacity-0 blog-header">
+                     <h2 class="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent mb-4">
+                        BLOG
+                    </h2>
+                    <p class="text-gray-400">活動レポート・コラム</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {displayBlogs.map((blog) => (
+                        <a href={`/blogs/${blog.id}`} class="blog-card group block opacity-0">
+                            <div class="bg-slate-900/50 rounded-xl overflow-hidden border border-white/5 hover:border-accent/30 transition-all duration-300">
+                                <div class="aspect-[16/9] bg-slate-800 relative overflow-hidden">
+                                     {blog.thumbnail ? (
+                                        <img src={blog.thumbnail.url} alt={blog.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"/>
+                                     ) : (
+                                        <div class="absolute inset-0 flex items-center justify-center text-4xl text-white/10">
+                                            📝
+                                        </div>
+                                     )}
+                                     <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                                </div>
+                                <div class="p-6">
+                                    <div class="flex items-center gap-3 mb-3 text-xs md:text-sm">
+                                        <time class="text-gray-400 font-mono">{new Date(blog.publishedAt).toLocaleDateString('ja-JP')}</time>
+                                        <div class="flex gap-1">
+                                            {(Array.isArray(blog.category) ? blog.category : blog.category ? [blog.category] : []).map((cat: any) => (
+                                                <span class="text-accent/80 bg-accent/10 px-2 py-0.5 rounded">{cat.name}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-white group-hover:text-accent transition-colors line-clamp-2 leading-snug">
+                                        {blog.title}
+                                    </h3>
+                                </div>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+                 <div class="text-center mt-12 opacity-0 blog-footer">
+                     <a href="/blogs" class="inline-block px-8 py-3 border border-white/20 rounded-full hover:bg-white/10 transition-colors text-sm font-bold tracking-widest">
+                        READ MORE
+                    </a>
+                 </div>
+            </div>
+        </section>
+
+        <!-- Sponsor Section -->
+        <section id="sponsor" class="py-32 bg-slate-900 border-t border-white/10 relative overflow-hidden">
+             <!-- Background Decoration -->
+             <div class="absolute inset-0 opacity-20 pointer-events-none">
+                <div class="absolute right-0 top-1/4 w-[500px] h-[500px] bg-gradient-to-b from-accent/20 to-transparent rounded-full filter blur-[120px]"></div>
+            </div>
+
+            <div class="container mx-auto px-4 relative z-10">
+                <div class="max-w-4xl mx-auto text-center">
+                    <div class="opacity-0 sponsor-header">
+                        <h2 class="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent mb-6">
+                            SPONSOR"0"
+                        </h2>
+                        <p class="text-xl text-gray-300 font-light mb-12">
+                            未来を創るパートナーとして。<br class="md:hidden" />
+                            MIRAIDOと共に歩みませんか？
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 opacity-0 sponsor-logos">
+                        <!-- Mock Logos / Placeholders -->
+                    <div class="flex flex-wrap justify-center gap-8 mb-16 sponsor-logos">
+                        {sponsors.length > 0 ? (
+                            sponsors.map((sponsor) => {
+                                // Determine tier color
+                                const tier = sponsor.type && sponsor.type.length > 0 ? sponsor.type[0] : null;
+                                let badgeClass = "bg-slate-700 text-white";
+                                if (tier === "Platinum") badgeClass = "bg-gradient-to-r from-cyan-400 to-blue-500 text-white";
+                                else if (tier === "Gold") badgeClass = "bg-yellow-500 text-black";
+                                else if (tier === "Silver") badgeClass = "bg-gray-400 text-black";
+                                else if (tier === "Personal") badgeClass = "bg-emerald-500 text-white";
+
+                                return (
+                                <a href={sponsor.url || "#"} target={sponsor.url ? "_blank" : "_self"} rel={sponsor.url ? "noopener noreferrer" : ""} class="block group relative">
+                                    <div class="w-64 aspect-video bg-slate-800 rounded-xl border border-white/10 flex items-center justify-center hover:bg-slate-700 transition-colors p-2 relative overflow-hidden shadow-lg">
+                                        {tier && (
+                                            <span class={`absolute top-2 left-2 text-[10px] font-bold px-2 py-0.5 rounded-full z-10 shadow-sm ${badgeClass}`}>
+                                                {tier}
+                                            </span>
+                                        )}
+                                        {sponsor.logo ? (
+                                             <img src={sponsor.logo.url} alt={sponsor.name} class="w-full h-full object-contain transition-all duration-300 transform group-hover:scale-105" />
+                                        ) : (
+                                            <span class="text-white font-bold tracking-widest">{sponsor.name}</span>
+                                        )}
+                                    </div>
+                                </a>
+                            )})
+                        ) : (
+                             // Fallback for no sponsors yet or during setup
+                            [1, 2, 3, 4].map((i) => (
+                                <div class="w-64 aspect-video bg-white/5 rounded-xl border border-white/10 flex items-center justify-center hover:bg-white/10 transition-colors relative">
+                                     <span class="absolute top-2 left-2 text-[10px] font-bold px-2 py-0.5 rounded-full bg-white/10 text-white/50">Tier</span>
+                                    <span class="text-white/20 font-bold tracking-widest">LOGO</span>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                    </div>
+
+                    <div class="opacity-0 sponsor-cta">
+                        <a href="/contact/sponsor" class="inline-block px-12 py-4 bg-transparent border border-accent text-accent font-bold rounded-full hover:bg-accent hover:text-primary transition-all duration-300 shadow-[0_0_20px_rgba(14,165,233,0.1)] hover:shadow-[0_0_30px_rgba(14,165,233,0.4)]">
+                            PARTNERSHIP
+                        </a>
+                        <p class="mt-4 text-sm text-gray-500">協賛について詳しく見る</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-32 bg-gradient-to-b from-slate-900 to-primary relative">
+             <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto text-center opacity-0 contact-content">
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-8">
+                        CONTACT US
+                    </h2>
+                    <p class="text-gray-300 mb-12 leading-relaxed">
+                        お問い合わせは、公式LINEまたはメールにて承っております。<br />
+                        お気軽にご連絡ください。
+                    </p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start text-left">
+                        <!-- Other Methods -->
+                        <div class="flex flex-col gap-8">
+                            <!-- LINE Section -->
+                            <div class="bg-white/5 rounded-2xl p-8 border border-white/10 hover:border-[#06C755]/50 transition-colors group flex flex-col items-center text-center">
+                                <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                                    <span class="text-[#06C755] text-3xl">LINE</span> 公式アカウント
+                                </h3>
+                                <div class="bg-white p-4 rounded-xl mb-6 shadow-lg">
+                                    <img src="/images/line_qr.png" alt="MIRAIDO Official LINE QR Code" class="w-32 h-32 object-contain" />
+                                </div>
+                                <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                                    友だち登録で最新情報をゲット！<br />
+                                    LINEからのお問い合わせも可能です。
+                                </p>
+                                <a href="https://line.me/R/ti/p/@362twwoz?oat__id=5380524" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-8 py-3 bg-[#06C755] text-white font-bold rounded-full hover:bg-[#05b34c] transition-colors shadow-lg shadow-[#06C755]/20">
+                                    友だち登録する
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Contact Form -->
+                        <!-- Web Form Section -->
+                        <div class="bg-white/5 rounded-2xl p-8 border border-white/10 hover:border-accent/50 transition-colors group flex flex-col items-center text-center h-full">
+                            <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-3">
+                                <span class="text-accent text-3xl">✉️</span> お問い合わせ
+                            </h3>
+                            <div class="bg-white/5 p-6 rounded-full mb-6 shadow-lg w-32 h-32 flex items-center justify-center border border-white/10 group-hover:border-accent/30 transition-colors">
+                                <span class="text-5xl">📝</span>
+                            </div>
+                            <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                                Webフォームからのお問い合わせは<br />
+                                こちらから受け付けております。
+                            </p>
+                            <a href="/contact" class="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-teal-400 to-accent text-white font-bold rounded-full hover:shadow-[0_0_20px_rgba(14,165,233,0.5)] transition-all transform hover:scale-105">
+                                お問い合わせフォームへ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+	</main>
 </Layout>
+
+<script>
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
+	// MotionPathPlugin is now registered inside DragonAnimation.astro or globally if needed.
+	// Registering here again for local scripts is fine/safe.
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	// Helper to split text into spans
+	function splitTextToSpans(selector: string) {
+		const element = document.querySelector(selector) as HTMLElement; // Cast to HTMLElement to access style
+		if (element && element.textContent) {
+			const text = element.textContent.trim();
+			element.textContent = "";
+			// Process text to keep spaces
+			[...text].forEach((char) => {
+				const span = document.createElement("span");
+				span.textContent = char;
+				span.style.opacity = "0";
+				span.style.display = "inline-block";
+				if (char === " ") {
+					span.style.width = "0.5em"; // manual space width
+				}
+				element.appendChild(span);
+			});
+			element.style.opacity = "1"; // Make container visible
+		}
+	}
+
+	// Hero Animations
+	const tl = gsap.timeline();
+
+	// Prepare text
+	splitTextToSpans(".hero-subtitle-en");
+
+	// Text Animations
+	// Remove old hero-title animation
+	gsap.set(".hero-title", { opacity: 0 }); // Ensure hidden initially
+
+	// Intro Title Sequence
+	const titleTl = gsap.timeline();
+
+	// 1. KODO appears (falls from top) and fades out (continuing down)
+	titleTl
+		.fromTo(
+			".intro-word-1",
+			{ y: -100, opacity: 0, filter: "blur(10px)" }, // Start from above
+			{
+				duration: 1.2,
+				y: 0,
+				opacity: 1,
+				filter: "blur(0px)", // Clear text
+				ease: "power3.out",
+			},
+		)
+		.to(
+			".intro-word-1",
+			{
+				duration: 0.8,
+				opacity: 0,
+				y: 50, // Continue falling down
+				filter: "blur(5px)", // Slight motion blur on exit
+				ease: "power2.in",
+			},
+			"+=0.5",
+		) // Hold time
+
+		// 2. TO appears
+		.fromTo(
+			".intro-word-2",
+			{ y: -100, opacity: 0, filter: "blur(10px)" },
+			{
+				duration: 1.0,
+				y: 0,
+				opacity: 1,
+				filter: "blur(0px)", // Clear text
+				ease: "power3.out",
+			},
+			"-=0.2",
+		)
+		.to(
+			".intro-word-2",
+			{
+				duration: 0.8,
+				opacity: 0,
+				y: 50, // Continue falling down
+				filter: "blur(5px)",
+				ease: "power2.in",
+			},
+			"+=0.5",
+		)
+
+		// 3. MIRAIDO appears
+		.fromTo(
+			".intro-word-3",
+			{ y: -100, opacity: 0, filter: "blur(10px)" },
+			{
+				duration: 1.2,
+				y: 0,
+				opacity: 1,
+				filter: "blur(0px)", // Clear text
+				ease: "power3.out",
+			},
+			"-=0.2",
+		)
+		.to(
+			".intro-word-3",
+			{
+				duration: 0.8,
+				opacity: 0,
+				y: 50, // Continue falling down
+				filter: "blur(5px)",
+				ease: "power2.in",
+			},
+			"+=0.5",
+		)
+
+		// 4. Final MIRAIDO appears
+		.to(
+			".hero-title",
+			{
+				duration: 2.0,
+				opacity: 1,
+				scale: 1,
+				ease: "power4.out",
+				backgroundPosition: "200% center",
+				onStart: () => {
+					gsap.set(".intro-sequence", { display: "none" });
+				},
+			},
+			"-=0.2",
+		);
+
+	// Subtitle Animation (chained after title)
+	titleTl
+		.to(
+			".hero-subtitle-en span",
+			{
+				duration: 0.8,
+				opacity: 1,
+				y: 0,
+				stagger: 0.05,
+				ease: "power3.out",
+			},
+			"-=1",
+		)
+		.to(
+			".hero-cta",
+			{
+				duration: 1,
+				opacity: 1,
+				y: 0,
+				ease: "power3.out",
+			},
+			"-=0.4",
+		);
+
+	// Link the title timeline to the main timeline if needed, or just let it run
+	// Since we are replacing the main 'tl' logic for text, this is fine as 'titleTl'
+
+	// Vertical Text Animation (Kodo -> Miraido) - Independent Timeline
+	const textTl = gsap.timeline({ repeat: -1, repeatDelay: 2 });
+
+	// Initial State
+	gsap.set(".vertical-text", {
+		opacity: 0,
+		scale: 0.9,
+		filter: "blur(10px)",
+	});
+
+	// Kodo appears (Vermilion color)
+	textTl
+		.to(".kodo", {
+			duration: 2,
+			opacity: 0.12, // 88% Transparency
+			color: "#d74a39", // Traditional Vermilion (Shu-iro)
+			scale: 1,
+			filter: "blur(0px)",
+			ease: "power2.out",
+		})
+		.to(
+			".kodo",
+			{
+				duration: 2,
+				opacity: 0,
+				scale: 1.1,
+				filter: "blur(20px)",
+				ease: "power2.in",
+			},
+			"+=2",
+		)
+
+		// Miraido appears (White/Silver/Gold random cycle)
+		.to(
+			".miraido",
+			{
+				duration: 2,
+				opacity: 0.12, // 88% Transparency
+				scale: 1,
+				filter: "blur(0px)",
+				ease: "power2.out",
+				onStart: () => {
+					// Start randomized color shift loop for Miraido while it's visible
+					gsap.to(".miraido", {
+						color: "random(['#ffffff', '#e2e8f0', '#fbbf24'])", // White, Silver (slate-200), Gold (amber-400)
+						duration: 0.5,
+						repeat: 8, // Run during the visible time
+						repeatRefresh: true,
+						ease: "none",
+					});
+				},
+			},
+			"-=1",
+		)
+		.to(
+			".miraido",
+			{
+				duration: 2,
+				opacity: 0,
+				scale: 1.1,
+				filter: "blur(20px)",
+				ease: "power2.in",
+			},
+			"+=3",
+		);
+
+    // "What is MIRAIDO" Section Animation
+	const whatSection = document.querySelector("#what");
+	if (whatSection) {
+		gsap.to(".what-content", {
+			scrollTrigger: {
+				trigger: "#what",
+				start: "top 70%",
+			},
+			opacity: 1,
+			duration: 1,
+		});
+
+		gsap.to(".what-text", {
+			scrollTrigger: {
+				trigger: "#what",
+				start: "top 70%",
+			},
+			y: 0,
+			opacity: 1,
+			duration: 1,
+			stagger: 0.2, // Stagger ease text block
+			ease: "power3.out",
+		});
+	}
+
+    // Projects Section Animation
+    const output = document.querySelector("#projects");
+    if(output) {
+        gsap.to(".project-header", {
+            scrollTrigger: {
+                trigger: "#projects",
+                start: "top 70%",
+            },
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        gsap.to(".project-card", {
+            scrollTrigger: {
+                trigger: "#projects",
+                start: "top 70%",
+            },
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power3.out"
+        });
+
+        gsap.to(".project-footer", {
+            scrollTrigger: {
+                trigger: "#projects",
+                start: "top 80%",
+            },
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            delay: 0.5,
+            ease: "power3.out"
+        });
+    }
+
+    // Sponsor Section Animation
+    const sponsorOutput = document.querySelector("#sponsor");
+    if(sponsorOutput) {
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#sponsor",
+                start: "top 70%",
+            }
+        });
+
+        tl.to(".sponsor-header", { y: 0, opacity: 1, duration: 1, ease: "power3.out" })
+          .to(".sponsor-logos", { y: 0, opacity: 1, duration: 1, ease: "power3.out" }, "-=0.5")
+          .to(".sponsor-cta", { y: 0, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.5");
+        
+        // Initial setup for timeline targets handled in CSS usually, but ensuring here if needed
+        gsap.set([".sponsor-header", ".sponsor-logos", ".sponsor-cta"], { y: 30 });
+    }
+
+    // Contact Section Animation
+    const contactOutput = document.querySelector("#contact");
+    if(contactOutput) {
+        gsap.fromTo(".contact-content", 
+            { y: 30, opacity: 0 },
+            {
+                scrollTrigger: {
+                    trigger: "#contact",
+                    start: "top 70%",
+                },
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
+            }
+        );
+    }
+
+    // Blog Section Animation
+    const blogsOutput = document.querySelector("#blogs");
+    if(blogsOutput) {
+         gsap.to(".blog-header", {
+            scrollTrigger: {
+                trigger: "#blogs",
+                start: "top 70%",
+            },
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            ease: "power3.out"
+        });
+
+        gsap.to(".blog-card", {
+            scrollTrigger: {
+                trigger: "#blogs",
+                start: "top 70%",
+            },
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            stagger: 0.15,
+            ease: "power3.out"
+        });
+
+         gsap.to(".blog-footer", {
+            scrollTrigger: {
+                trigger: "#blogs",
+                start: "top 80%",
+            },
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            delay: 0.5,
+            ease: "power3.out"
+        });
+    }
+
+
+</script>
+
+<style>
+	/* Custom animations that simple Tailwind config might not cover */
+	@keyframes pulse-slow {
+		0%,
+		100% {
+			opacity: 0.3;
+			transform: scale(1);
+		}
+		50% {
+			opacity: 0.5;
+			transform: scale(1.1);
+		}
+	}
+	.animate-pulse-slow {
+		animation: pulse-slow 8s infinite ease-in-out;
+	}
+</style>

@@ -1,0 +1,195 @@
+---
+
+---
+
+<div
+    class="absolute inset-0 z-0 pointer-events-none opacity-60 dragon-animation-container"
+>
+    <svg
+        viewBox="0 0 1440 1000"
+        class="w-full h-full preserve-3d"
+        preserveAspectRatio="xMidYMid slice"
+    >
+        <defs>
+            <linearGradient
+                id="beamGradient"
+                x1="0%"
+                y1="100%"
+                x2="100%"
+                y2="0%"
+            >
+                <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0"></stop>
+                <stop offset="20%" stop-color="#0ea5e9" stop-opacity="0.5"
+                ></stop>
+                <stop offset="80%" stop-color="#ffffff" stop-opacity="1"></stop>
+                <stop offset="100%" stop-color="#ffffff" stop-opacity="0"
+                ></stop>
+            </linearGradient>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="4" result="coloredBlur"
+                ></feGaussianBlur>
+                <feMerge>
+                    <feMergeNode in="coloredBlur"></feMergeNode>
+                    <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+            </filter>
+        </defs>
+
+        <!-- The Winding Path -->
+        <path
+            id="dragonPath"
+            d=""
+            fill="none"
+            stroke="url(#beamGradient)"
+            stroke-width="4"
+            stroke-linecap="round"
+            class="beam-line"
+            filter="url(#glow)"></path>
+
+        <!-- The "Dragon Head" -->
+        <circle id="dragonHead" r="6" fill="#ffffff" filter="url(#glow)">
+        </circle>
+    </svg>
+</div>
+
+<script>
+    import { gsap } from "gsap";
+    import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+
+    gsap.registerPlugin(MotionPathPlugin);
+
+    // Encapsulate to avoid global scope pollution if multiple instances (though unlikely for full screen bg)
+    function initDragonAnimation() {
+        // Dragon Light Beam Animation
+        const path = document.querySelector("#dragonPath") as SVGPathElement;
+        const head = document.querySelector("#dragonHead") as SVGCircleElement;
+        const gradientStops = document.querySelectorAll("#beamGradient stop");
+
+        // Colors: Tech Dark Navy / Future Accent variations
+        const colors = [
+            ["#0ea5e9", "#ffffff"], // Sky Blue
+            ["#22d3ee", "#ffffff"], // Cyan
+            ["#818cf8", "#ffffff"], // Indigo
+            ["#c084fc", "#ffffff"], // Purple
+            ["#2dd4bf", "#ffffff"], // Teal
+        ];
+
+        function getRandomColorPair() {
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function setGradientColors(colorPair: string[]) {
+            if (gradientStops.length >= 4) {
+                // 0%
+                (gradientStops[0] as SVGStopElement).setAttribute(
+                    "stop-color",
+                    colorPair[0],
+                );
+                // 20%
+                (gradientStops[1] as SVGStopElement).setAttribute(
+                    "stop-color",
+                    colorPair[0],
+                );
+                // 80% (Tip)
+                (gradientStops[2] as SVGStopElement).setAttribute(
+                    "stop-color",
+                    colorPair[1],
+                );
+                // 100%
+                (gradientStops[3] as SVGStopElement).setAttribute(
+                    "stop-color",
+                    colorPair[1],
+                );
+            }
+            if (head) {
+                head.setAttribute("fill", colorPair[1]);
+            }
+        }
+
+        function generateRandomPath() {
+            const width = 1440;
+            const height = 1000;
+            const padding = 200;
+
+            // Start at bottom, somewhere in width
+            // We want it roughly centered but variable
+            const startX = Math.random() * width;
+            const startY = height + padding;
+
+            // End at top
+            const endX = Math.random() * width;
+            const endY = -padding;
+
+            // Segment 1: Bottom to 66% height
+            const mid1X = Math.random() * width;
+            const mid1Y = height * 0.66;
+
+            // Segment 2: 66% to 33% height
+            const mid2X = Math.random() * width;
+            const mid2Y = height * 0.33;
+
+            return `M ${startX},${startY} 
+                    C ${startX},${startY - 200} ${mid1X},${mid1Y + 200} ${mid1X},${mid1Y} 
+                    S ${mid2X},${mid2Y + 200} ${mid2X},${mid2Y}
+                    S ${endX},${endY + 200} ${endX},${endY}`;
+        }
+
+        if (path) {
+            function animateDragon() {
+                const newPath = generateRandomPath();
+                path.setAttribute("d", newPath);
+
+                const newColors = getRandomColorPair();
+                setGradientColors(newColors);
+
+                const length = path.getTotalLength();
+                // Reset setup
+                gsap.set(path, {
+                    strokeDasharray: length,
+                    strokeDashoffset: length,
+                    opacity: 1,
+                });
+
+                // Recursive timeline
+                const tl = gsap.timeline({
+                    onComplete: animateDragon,
+                });
+
+                // Path Drawing
+                tl.to(path, {
+                    strokeDashoffset: 0,
+                    duration: 4,
+                    ease: "power2.inOut",
+                })
+                    // Fade out trail
+                    .to(
+                        path,
+                        {
+                            opacity: 0,
+                            duration: 1,
+                            ease: "power2.inOut",
+                        },
+                        "-=1.5",
+                    );
+
+                // Head movement
+                gsap.to("#dragonHead", {
+                    motionPath: {
+                        path: "#dragonPath",
+                        align: "#dragonPath",
+                        alignOrigin: [0.5, 0.5],
+                        autoRotate: true,
+                    },
+                    duration: 4,
+                    ease: "power2.inOut",
+                });
+            }
+
+            // Start the loop
+            animateDragon();
+        }
+    }
+
+    // Run on module load or ensure DOM is ready
+    initDragonAnimation();
+</script>

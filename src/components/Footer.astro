@@ -1,0 +1,134 @@
+---
+
+---
+
+<footer
+    class="bg-[#0f172a] text-white py-12 border-t border-white/5 relative overflow-hidden"
+>
+    <!-- Ocean Wave Animation -->
+    <div
+        class="waves-container absolute inset-x-0 bottom-0 pointer-events-none z-0 h-[20vh] min-h-[150px] flex items-end opacity-80"
+    >
+        <svg
+            class="waves w-full h-[60px] md:h-[100px]"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 24 150 28"
+            preserveAspectRatio="none"
+            shape-rendering="auto"
+        >
+            <defs>
+                <path
+                    id="gentle-wave"
+                    d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
+                ></path>
+            </defs>
+            <g class="parallax">
+                <use
+                    xlink:href="#gentle-wave"
+                    x="48"
+                    y="0"
+                    fill="rgba(51, 65, 85, 0.3)"></use>
+                <use
+                    xlink:href="#gentle-wave"
+                    x="48"
+                    y="3"
+                    fill="rgba(51, 65, 85, 0.5)"></use>
+                <use
+                    xlink:href="#gentle-wave"
+                    x="48"
+                    y="5"
+                    fill="rgba(51, 65, 85, 0.7)"></use>
+                <use xlink:href="#gentle-wave" x="48" y="7" fill="#0f172a"
+                ></use>
+            </g>
+        </svg>
+    </div>
+
+    <div class="container mx-auto px-4 relative z-10">
+        <div
+            class="flex flex-col md:flex-row items-center justify-between gap-8 mb-12"
+        >
+            <!-- Robo / Logo Area -->
+            <div class="text-center md:text-left">
+                <div class="mb-6">
+                    <a
+                        href="/"
+                        class="inline-block hover:opacity-80 transition-opacity"
+                    >
+                        <img
+                            src="/images/logo-white.svg"
+                            alt="MIRAIDO PROJECT"
+                            class="w-48 md:w-64 h-auto mx-auto md:mx-0"
+                        />
+                    </a>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav
+                class="flex flex-col md:flex-row gap-6 md:gap-8 text-center md:text-right"
+            >
+                <a
+                    href="/about"
+                    class="text-gray-400 hover:text-white transition-colors text-sm"
+                >
+                    MIRAIDOプロジェクトについて
+                </a>
+                <a
+                    href="/privacy"
+                    class="text-gray-400 hover:text-white transition-colors text-sm"
+                >
+                    プライバシーポリシー
+                </a>
+                <a
+                    href="/legal"
+                    class="text-gray-400 hover:text-white transition-colors text-sm"
+                >
+                    特定商取引法に基づく表記
+                </a>
+            </nav>
+        </div>
+
+        <!-- Copyright -->
+        <div
+            class="border-t border-white/10 pt-8 text-center text-gray-500 text-xs tracking-wider"
+        >
+            &copy; 2026 360inc All Rights Reserved.
+        </div>
+    </div>
+</footer>
+
+<style>
+    .waves {
+        width: 100%;
+    }
+
+    .parallax > use {
+        animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+    }
+    .parallax > use:nth-child(1) {
+        animation-delay: -2s;
+        animation-duration: 7s;
+    }
+    .parallax > use:nth-child(2) {
+        animation-delay: -3s;
+        animation-duration: 10s;
+    }
+    .parallax > use:nth-child(3) {
+        animation-delay: -4s;
+        animation-duration: 13s;
+    }
+    .parallax > use:nth-child(4) {
+        animation-delay: -5s;
+        animation-duration: 20s;
+    }
+    @keyframes move-forever {
+        0% {
+            transform: translate3d(-90px, 0, 0);
+        }
+        100% {
+            transform: translate3d(85px, 0, 0);
+        }
+    }
+</style>

@@ -1,0 +1,103 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import DragonAnimation from "../../components/DragonAnimation.astro";
+
+const title = "WRO Japan 2025 三重予選会 | MIRAIDO";
+const description =
+    "WRO (World Robot Olympiad) Japan 2025 公認三重予選会の特設ページです。開催概要、参加要項、スケジュールなどを随時更新いたします。";
+---
+
+<Layout title={title} description={description}>
+    <!-- Background -->
+    <div class="fixed inset-0 z-0">
+        <DragonAnimation />
+    </div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 min-h-screen py-24 px-4 overflow-hidden">
+        <div class="container mx-auto max-w-4xl">
+            <!-- Header -->
+            <header class="text-center mb-16 opacity-0 animate-fade-in-up">
+                <div
+                    class="inline-block px-4 py-1 rounded-full bg-accent/10 border border-accent/20 text-accent font-bold text-sm mb-4"
+                >
+                    COMING SOON
+                </div>
+                <h1
+                    class="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent mb-6 leading-tight"
+                >
+                    WRO Japan 2025<br />
+                    <span class="text-3xl md:text-5xl">公認三重予選会</span>
+                </h1>
+                <p class="text-xl text-gray-300 font-light max-w-2xl mx-auto">
+                    世界最大級の学生ロボットコンテスト。<br />
+                    三重から世界へ。未来のエンジニアたちがここに集う。
+                </p>
+            </header>
+
+            <!-- Content Card -->
+            <div
+                class="bg-slate-900/60 border border-white/5 backdrop-blur-md rounded-3xl p-8 md:p-12 text-center opacity-0 animate-fade-in-up delay-150"
+            >
+                <div class="mb-8">
+                    <h2 class="text-2xl font-bold text-white mb-4">
+                        開催に向けて準備中
+                    </h2>
+                    <p class="text-gray-400 leading-relaxed">
+                        現在、開催概要および参加要項の準備を進めております。<br
+                        />
+                        詳細が決まり次第、本ページにてお知らせいたします。
+                    </p>
+                </div>
+
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 text-left"
+                >
+                    <div
+                        class="p-6 rounded-2xl bg-white/5 border border-white/5"
+                    >
+                        <h3 class="text-accent font-bold mb-2">開催予定時期</h3>
+                        <p class="text-white text-lg">2025年 夏（予定）</p>
+                    </div>
+                    <div
+                        class="p-6 rounded-2xl bg-white/5 border border-white/5"
+                    >
+                        <h3 class="text-accent font-bold mb-2">開催場所</h3>
+                        <p class="text-white text-lg">調整中</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <p class="text-sm text-gray-500">
+                        最新情報は公式SNSでも発信してまいります。
+                    </p>
+                    <a
+                        href="/"
+                        class="inline-block px-8 py-3 rounded-full bg-white/10 border border-white/10 text-white font-bold hover:bg-white/20 hover:scale-105 transition-all duration-300"
+                    >
+                        トップページに戻る
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script>
+    import { gsap } from "gsap";
+
+    gsap.to(".animate-fade-in-up", {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power3.out",
+    });
+</script>
+
+<style>
+    .animate-fade-in-up {
+        transform: translateY(2rem);
+        opacity: 0;
+    }
+</style>

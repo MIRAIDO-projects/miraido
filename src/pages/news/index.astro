@@ -1,0 +1,165 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import DragonAnimation from "../../components/DragonAnimation.astro";
+import { getNews } from "../../lib/microcms";
+import type { News } from "../../types/microcms";
+
+// Fetch news from microCMS
+const { contents: news } = await getNews();
+
+// Mock Data if API key is missing or no content
+const displayNews: News[] = news.length > 0 ? news : [
+    {
+        id: "1",
+        Title: "MIRAIDOプロジェクト始動！",
+        category: { id: "info", name: "お知らせ" },
+        content: "",
+        publishedAt: "2025-04-01",
+        updatedAt: "2025-04-01",
+        createdAt: "2025-04-01",
+        revisedAt: "2025-04-01",
+    },
+    {
+        id: "2",
+        Title: "第1回 ロボットプログラミング体験会開催決定",
+        category: { id: "event", name: "イベント" },
+        content: "",
+        publishedAt: "2025-04-15",
+        updatedAt: "2025-04-15",
+        createdAt: "2025-04-15",
+        revisedAt: "2025-04-15",
+    },
+    {
+        id: "3",
+        Title: "スポンサー募集を開始しました",
+        category: { id: "info", name: "お知らせ" },
+        content: "",
+        publishedAt: "2025-05-01",
+        updatedAt: "2025-05-01",
+        createdAt: "2025-05-01",
+        revisedAt: "2025-05-01",
+    },
+    {
+        id: "4",
+        Title: "Webサイトをリニューアルしました",
+        category: { id: "update", name: "更新情報" },
+        content: "",
+        publishedAt: "2025-05-10",
+        updatedAt: "2025-05-10",
+        createdAt: "2025-05-10",
+        revisedAt: "2025-05-10",
+    }
+];
+---
+
+<Layout
+    title="NEWS | MIRAIDO"
+    description="MIRAIDOプロジェクトの最新情報をお届けします。"
+>
+    <!-- Full-screen Background Animation -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <DragonAnimation />
+    </div>
+
+    <main class="relative z-10 min-h-screen py-24 px-4 overflow-hidden">
+        <div class="container mx-auto max-w-4xl">
+            <!-- Header -->
+            <header class="text-center mb-20 opacity-0 animate-fade-in-up">
+                <h1
+                    class="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent mb-6"
+                >
+                    NEWS
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 font-light tracking-wide">
+                    最新情報・お知らせ
+                </p>
+            </header>
+
+            <!-- News List -->
+            <div class="space-y-6">
+                {displayNews.map((item, index) => (
+                    <a href={`/news/${item.id}`} class={`block group opacity-0 animate-fade-in-up delay-${(index % 5) * 100 + 200}`}>
+                        <article class="relative p-6 md:p-8 rounded-2xl bg-slate-900/60 border border-white/5 hover:border-accent/40 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent/10">
+                            <div class="flex flex-col md:flex-row md:items-center gap-4">
+                                <div class="shrink-0 flex items-center gap-4 text-sm font-mono">
+                                    <time class="text-accent/80" datetime={item.publishedAt}>
+                                        {new Date(item.publishedAt).toLocaleDateString("ja-JP")}
+                                    </time>
+                                    <span class="px-2 py-0.5 rounded text-xs border border-white/20 bg-white/5 text-gray-300">
+                                        {item.category?.name}
+                                    </span>
+                                </div>
+                                <h2 class="text-lg md:text-xl font-bold text-white group-hover:text-accent transition-colors">
+                                    {item.Title}
+                                </h2>
+                            </div>
+                            <!-- Decorative gradient overlay on hover -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl pointer-events-none"></div>
+                        </article>
+                    </a>
+                ))}
+            </div>
+
+            <!-- Footer Navigation -->
+            <div class="mt-20 text-center opacity-0 animate-fade-in-up delay-700">
+                <a
+                    href="/"
+                    class="inline-flex items-center text-gray-400 hover:text-white transition-colors gap-2 group"
+                >
+                    <span class="transform group-hover:-translate-x-1 transition-transform">←</span>
+                    TOPページに戻る
+                </a>
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animations
+    const items = document.querySelectorAll(".animate-fade-in-up");
+    
+    if(items.length > 0) {
+        gsap.fromTo(items, 
+            {
+                y: 50,
+                opacity: 0,
+                scale: 0.95
+            },
+            {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                stagger: 0.1,
+                ease: "power4.out",
+                scrollTrigger: {
+                    trigger: ".container", // Trigger based on container or individual items
+                    start: "top 85%", // Start a bit earlier
+                }
+            }
+        );
+
+        // Individual item scroll trigger for better list effect if list is long
+        /* 
+        // Alternative: Animate each as it comes into view
+        items.forEach((item) => {
+             gsap.fromTo(item, 
+                { y: 50, opacity: 0 },
+                {
+                    y: 0, opacity: 1, duration: 1, ease: "power3.out",
+                    scrollTrigger: { trigger: item, start: "top 90%" }
+                }
+             )
+        })
+        */
+    }
+</script>
+
+<style>
+
+</style>

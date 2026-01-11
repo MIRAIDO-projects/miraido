@@ -1,0 +1,131 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import DragonAnimation from "../../components/DragonAnimation.astro";
+
+const title = "THANK YOU | MIRAIDO";
+const description = "お問い合わせありがとうございます。";
+---
+
+<Layout title={title} description={description}>
+    <!-- Full-screen Background -->
+    <div class="fixed inset-0 z-0">
+        <DragonAnimation />
+    </div>
+
+    <!-- Main Content -->
+    <main
+        class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 overflow-hidden"
+    >
+        <!-- Success Card -->
+        <div
+            class="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-12 max-w-lg w-full text-center shadow-2xl opacity-0 animate-scale-in relative overflow-hidden group"
+        >
+            <!-- Glow Effect -->
+            <div
+                class="absolute -top-24 -right-24 w-48 h-48 bg-teal-500/20 rounded-full blur-3xl group-hover:bg-teal-500/30 transition-colors duration-700"
+            >
+            </div>
+            <div
+                class="absolute -bottom-24 -left-24 w-48 h-48 bg-accent/20 rounded-full blur-3xl group-hover:bg-accent/30 transition-colors duration-700"
+            >
+            </div>
+
+            <!-- Animated Icon -->
+            <div class="mb-8 relative inline-block">
+                <div
+                    class="w-24 h-24 rounded-full bg-gradient-to-tr from-teal-400 to-accent p-[2px] animate-spin-slow-reverse"
+                >
+                    <div
+                        class="w-full h-full rounded-full bg-slate-900 flex items-center justify-center"
+                    >
+                        <svg
+                            class="w-12 h-12 text-teal-400 animate-check"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="3"
+                                d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                </div>
+                <!-- Particles could go here -->
+            </div>
+
+            <!-- Heading -->
+            <h1
+                class="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent mb-4 tracking-tight"
+            >
+                THANK YOU
+            </h1>
+
+            <!-- Message -->
+            <p class="text-white text-lg font-bold mb-2">
+                お問い合わせを受け付けました
+            </p>
+            <p class="text-gray-400 text-sm mb-10 leading-relaxed">
+                確認メールを送信しました。<br />
+                担当者より折り返しご連絡させていただきます。
+            </p>
+
+            <!-- Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                    href="/"
+                    class="px-8 py-3 rounded-full bg-white/10 border border-white/10 text-white font-bold hover:bg-white/20 hover:scale-105 transition-all duration-300 backdrop-blur-sm"
+                >
+                    トップに戻る
+                </a>
+                <a
+                    href="/blogs"
+                    class="px-8 py-3 rounded-full bg-gradient-to-r from-teal-400 to-accent text-slate-900 font-bold hover:shadow-lg hover:shadow-teal-500/20 hover:scale-105 transition-all duration-300"
+                >
+                    ブログを読む
+                </a>
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script>
+    import { gsap } from "gsap";
+
+    // Build In Animation
+    const tl = gsap.timeline();
+
+    tl.to(".animate-scale-in", {
+        scale: 1,
+        opacity: 1,
+        duration: 0.8,
+        ease: "back.out(1.7)",
+    }).fromTo(
+        ".animate-check",
+        { pathLength: 0, opacity: 0 },
+        { pathLength: 1, opacity: 1, duration: 0.5, ease: "power2.out" },
+        "-=0.4",
+    );
+</script>
+
+<style>
+    .animate-scale-in {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    .animate-spin-slow-reverse {
+        animation: spin-reverse 8s linear infinite;
+    }
+
+    @keyframes spin-reverse {
+        from {
+            transform: rotate(360deg);
+        }
+        to {
+            transform: rotate(0deg);
+        }
+    }
+</style>

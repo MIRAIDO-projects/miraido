@@ -1,0 +1,150 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import DragonAnimation from "../../components/DragonAnimation.astro";
+import { getNews, getNewsDetail } from "../../lib/microcms";
+import type { News } from "../../types/microcms";
+
+// Static Paths for SSG
+export async function getStaticPaths() {
+    const { contents: news } = await getNews();
+    // Fallback for development if API returns empty
+    const paths =
+        news && news.length > 0
+            ? news.map((item) => ({ params: { slug: item.id } }))
+            : [
+                  { params: { slug: "1" } },
+                  { params: { slug: "2" } },
+                  { params: { slug: "3" } },
+                  { params: { slug: "4" } },
+              ];
+    return paths;
+}
+
+const { slug } = Astro.params;
+const news = await getNewsDetail(slug as string);
+
+// Mock data fallback if API fails or mock ID used
+const displayNews =
+    news ||
+    ({
+        id: slug,
+        Title: "MIRAIDOプロジェクト始動！",
+        category: { id: "info", name: "お知らせ" },
+        content:
+            "<p>MIRAIDOプロジェクトが正式に始動しました。子供たちの未来を創るための様々な取り組みを行っていきます。</p><h3>今後の予定</h3><ul><li>ロボット教室の開催</li><li>地域イベントへの参加</li></ul>",
+        publishedAt: "2025-04-01",
+    } as News);
+---
+
+<Layout
+    title={`${displayNews.Title} | NEWS | MIRAIDO`}
+    description="MIRAIDOプロジェクトの最新情報"
+>
+    <!-- Full-screen Background Animation -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <DragonAnimation />
+    </div>
+
+    <main class="relative z-10 min-h-screen py-24 px-4">
+        <div class="container mx-auto max-w-3xl">
+            <!-- Header -->
+            <header class="mb-12 opacity-0 animate-fade-in-up">
+                <div
+                    class="flex items-center gap-4 mb-6 text-sm md:text-base font-mono"
+                >
+                    <time
+                        class="text-accent/80"
+                        datetime={displayNews.publishedAt}
+                    >
+                        {
+                            new Date(
+                                displayNews.publishedAt,
+                            ).toLocaleDateString("ja-JP")
+                        }
+                    </time>
+                    <span
+                        class="px-3 py-1 rounded border border-white/20 bg-white/5 text-gray-300"
+                    >
+                        {displayNews.category?.name}
+                    </span>
+                </div>
+                <h1
+                    class="text-3xl md:text-5xl font-bold text-white leading-tight"
+                >
+                    {displayNews.Title}
+                </h1>
+                <div class="h-1 w-20 bg-accent mt-8 rounded-full"></div>
+            </header>
+
+            <!-- Content -->
+            <article
+                class="prose prose-invert prose-lg max-w-none opacity-0 animate-fade-in-up delay-200 bg-slate-900/40 p-8 md:p-12 rounded-2xl border border-white/5 backdrop-blur-sm"
+            >
+                <div set:html={displayNews.content} />
+            </article>
+
+            <!-- Footer Navigation -->
+            <div
+                class="mt-20 text-center opacity-0 animate-fade-in-up delay-500"
+            >
+                <a
+                    href="/news"
+                    class="inline-flex items-center px-8 py-3 rounded-full border border-white/20 hover:bg-white/10 transition-colors text-sm font-bold tracking-widest gap-2 group"
+                >
+                    <span
+                        class="transform group-hover:-translate-x-1 transition-transform"
+                        >←</span
+                    >
+                    一覧に戻る
+                </a>
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script>
+    import { gsap } from "gsap";
+
+    const items = document.querySelectorAll(".animate-fade-in-up");
+    if (items.length > 0) {
+        gsap.to(items, {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.1,
+            ease: "power3.out",
+        });
+    }
+</script>
+
+<style>
+    .animate-fade-in-up {
+        transform: translateY(2rem);
+        opacity: 0;
+    }
+
+    /* Custom Prose Styles for better readability on dark bg */
+    :global(.prose h2) {
+        color: #0ea5e9; /* text-accent */
+        border-left: 4px solid #0ea5e9;
+        padding-left: 1rem;
+        margin-top: 3rem;
+    }
+    :global(.prose h3) {
+        color: #e2e8f0;
+        margin-top: 2.5rem;
+    }
+    :global(.prose a) {
+        color: #0ea5e9;
+        text-decoration: none;
+    }
+    :global(.prose a:hover) {
+        text-decoration: underline;
+    }
+    :global(.prose strong) {
+        color: #fff;
+    }
+    :global(.prose ul > li::marker) {
+        color: #0ea5e9;
+    }
+</style>

@@ -1,0 +1,267 @@
+---
+import Layout from "../layouts/Layout.astro";
+import DragonAnimation from "../components/DragonAnimation.astro";
+
+const title = "404 Not Found | MIRAIDO";
+const description = "お探しのページは見つかりませんでした。";
+---
+
+<Layout title={title} description={description}>
+    <!-- Background -->
+    <div class="fixed inset-0 z-0">
+        <DragonAnimation />
+    </div>
+
+    <!-- Content -->
+    <main
+        class="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 overflow-hidden text-center"
+    >
+        <!-- Glitch 404 Text -->
+        <div class="relative mb-8">
+            <h1
+                class="text-[120px] md:text-[200px] font-black leading-none text-white opacity-20 select-none glitch-text"
+                data-text="404"
+            >
+                404
+            </h1>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <h2
+                    class="text-4xl md:text-6xl font-bold text-white tracking-widest z-10 mix-blend-overlay"
+                >
+                    NOT FOUND
+                </h2>
+            </div>
+        </div>
+
+        <div
+            class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8 md:p-12 max-w-2xl w-full shadow-2xl relative overflow-hidden group"
+        >
+            <!-- Glow -->
+            <div
+                class="absolute -top-1/2 -right-1/2 w-full h-full bg-teal-500/10 rounded-full blur-3xl group-hover:bg-teal-500/20 transition-all duration-700"
+            >
+            </div>
+
+            <h3 class="text-2xl font-bold text-white mb-4 relative z-10">
+                ページが見つかりません
+            </h3>
+            <p class="text-gray-300 mb-8 leading-relaxed relative z-10">
+                お探しのページは削除されたか、URLが変更された可能性があります。<br
+                />
+                トップページから再度アクセスしてください。
+            </p>
+
+            <a
+                href="/"
+                class="relative z-10 inline-block px-8 py-4 rounded-full bg-gradient-to-r from-teal-400 to-accent text-slate-900 font-bold hover:shadow-lg hover:shadow-teal-500/25 hover:scale-105 transition-all duration-300"
+            >
+                トップページに戻る
+            </a>
+        </div>
+    </main>
+</Layout>
+
+<style>
+    .glitch-text {
+        position: relative;
+    }
+
+    .glitch-text::before,
+    .glitch-text::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #0f172a; /* Match background roughly or transparent */
+    }
+
+    .glitch-text::before {
+        left: 2px;
+        text-shadow: -1px 0 #00ffff;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim 5s infinite linear alternate-reverse;
+    }
+
+    .glitch-text::after {
+        left: -2px;
+        text-shadow: -1px 0 #ff00ff;
+        clip: rect(44px, 450px, 56px, 0);
+        animation: glitch-anim2 5s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim {
+        0% {
+            clip: rect(42px, 9999px, 44px, 0);
+            transform: skew(0.5deg);
+        }
+        5% {
+            clip: rect(12px, 9999px, 54px, 0);
+            transform: skew(0.5deg);
+        }
+        10% {
+            clip: rect(88px, 9999px, 86px, 0);
+            transform: skew(0.5deg);
+        }
+        15% {
+            clip: rect(6px, 9999px, 20px, 0);
+            transform: skew(0.5deg);
+        }
+        20% {
+            clip: rect(66px, 9999px, 12px, 0);
+            transform: skew(0.5deg);
+        }
+        25% {
+            clip: rect(96px, 9999px, 80px, 0);
+            transform: skew(0.5deg);
+        }
+        30% {
+            clip: rect(2px, 9999px, 98px, 0);
+            transform: skew(0.5deg);
+        }
+        35% {
+            clip: rect(33px, 9999px, 4px, 0);
+            transform: skew(0.5deg);
+        }
+        40% {
+            clip: rect(98px, 9999px, 12px, 0);
+            transform: skew(0.5deg);
+        }
+        45% {
+            clip: rect(23px, 9999px, 66px, 0);
+            transform: skew(0.5deg);
+        }
+        50% {
+            clip: rect(8px, 9999px, 48px, 0);
+            transform: skew(0.5deg);
+        }
+        55% {
+            clip: rect(55px, 9999px, 11px, 0);
+            transform: skew(0.5deg);
+        }
+        60% {
+            clip: rect(78px, 9999px, 65px, 0);
+            transform: skew(0.5deg);
+        }
+        65% {
+            clip: rect(22px, 9999px, 86px, 0);
+            transform: skew(0.5deg);
+        }
+        70% {
+            clip: rect(96px, 9999px, 33px, 0);
+            transform: skew(0.5deg);
+        }
+        75% {
+            clip: rect(30px, 9999px, 62px, 0);
+            transform: skew(0.5deg);
+        }
+        80% {
+            clip: rect(10px, 9999px, 30px, 0);
+            transform: skew(0.5deg);
+        }
+        85% {
+            clip: rect(12px, 9999px, 90px, 0);
+            transform: skew(0.5deg);
+        }
+        90% {
+            clip: rect(50px, 9999px, 12px, 0);
+            transform: skew(0.5deg);
+        }
+        95% {
+            clip: rect(2px, 9999px, 10px, 0);
+            transform: skew(0.5deg);
+        }
+        100% {
+            clip: rect(40px, 9999px, 50px, 0);
+            transform: skew(0.5deg);
+        }
+    }
+
+    @keyframes glitch-anim2 {
+        0% {
+            clip: rect(12px, 9999px, 54px, 0);
+            transform: skew(0.5deg);
+        }
+        5% {
+            clip: rect(42px, 9999px, 44px, 0);
+            transform: skew(0.5deg);
+        }
+        10% {
+            clip: rect(6px, 9999px, 20px, 0);
+            transform: skew(0.5deg);
+        }
+        15% {
+            clip: rect(88px, 9999px, 86px, 0);
+            transform: skew(0.5deg);
+        }
+        20% {
+            clip: rect(96px, 9999px, 80px, 0);
+            transform: skew(0.5deg);
+        }
+        25% {
+            clip: rect(66px, 9999px, 12px, 0);
+            transform: skew(0.5deg);
+        }
+        30% {
+            clip: rect(33px, 9999px, 4px, 0);
+            transform: skew(0.5deg);
+        }
+        35% {
+            clip: rect(2px, 9999px, 98px, 0);
+            transform: skew(0.5deg);
+        }
+        40% {
+            clip: rect(23px, 9999px, 66px, 0);
+            transform: skew(0.5deg);
+        }
+        45% {
+            clip: rect(98px, 9999px, 12px, 0);
+            transform: skew(0.5deg);
+        }
+        50% {
+            clip: rect(55px, 9999px, 11px, 0);
+            transform: skew(0.5deg);
+        }
+        55% {
+            clip: rect(8px, 9999px, 48px, 0);
+            transform: skew(0.5deg);
+        }
+        60% {
+            clip: rect(22px, 9999px, 86px, 0);
+            transform: skew(0.5deg);
+        }
+        65% {
+            clip: rect(78px, 9999px, 65px, 0);
+            transform: skew(0.5deg);
+        }
+        70% {
+            clip: rect(30px, 9999px, 62px, 0);
+            transform: skew(0.5deg);
+        }
+        75% {
+            clip: rect(96px, 9999px, 33px, 0);
+            transform: skew(0.5deg);
+        }
+        80% {
+            clip: rect(12px, 9999px, 90px, 0);
+            transform: skew(0.5deg);
+        }
+        85% {
+            clip: rect(10px, 9999px, 30px, 0);
+            transform: skew(0.5deg);
+        }
+        90% {
+            clip: rect(2px, 9999px, 10px, 0);
+            transform: skew(0.5deg);
+        }
+        95% {
+            clip: rect(50px, 9999px, 12px, 0);
+            transform: skew(0.5deg);
+        }
+        100% {
+            clip: rect(40px, 9999px, 50px, 0);
+            transform: skew(0.5deg);
+        }
+    }
+</style>

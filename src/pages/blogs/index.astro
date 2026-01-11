@@ -1,0 +1,174 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import DragonAnimation from "../../components/DragonAnimation.astro";
+import { getBlogs } from "../../lib/microcms";
+import type { Blog } from "../../types/microcms";
+
+// Fetch blogs from microCMS
+const { contents: blogs } = await getBlogs();
+
+// Mock Data if API key is missing or no content
+const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
+    {
+        id: "1",
+        title: "子供たちの「未来への扉」を開くために",
+        category: [{ id: "c1", name: "理念" }, { id: "c2", name: "教育" } as any],
+        content: "",
+        publishedAt: "2025-04-10",
+        updatedAt: "2025-04-10",
+        createdAt: "2025-04-10",
+        revisedAt: "2025-04-10",
+        thumbnail: { url: "", height: 100, width: 100 }
+    },
+    {
+        id: "2",
+        title: "熊野古道と最新テクノロジーの融合",
+        category: [{ id: "c3", name: "テクノロジー" }, { id: "c4", name: "地域" } as any],
+        content: "",
+        publishedAt: "2025-04-20",
+        updatedAt: "2025-04-20",
+        createdAt: "2025-04-20",
+        revisedAt: "2025-04-20",
+        thumbnail: { url: "", height: 100, width: 100 }
+    },
+     {
+        id: "3",
+        title: "ロボット大会レポート：熱き戦いの記録",
+        category: [{ id: "c5", name: "レポート" }, { id: "c6", name: "イベント" } as any],
+        content: "",
+        publishedAt: "2025-05-05",
+        updatedAt: "2025-05-05",
+        createdAt: "2025-05-05",
+        revisedAt: "2025-05-05",
+        thumbnail: { url: "", height: 100, width: 100 }
+    },
+    {
+        id: "4",
+        title: "なぜ今、地域でイノベーションが必要なのか",
+        category: [{ id: "c7", name: "コラム" }, { id: "c8", name: "地方創生" } as any],
+        content: "",
+        publishedAt: "2025-05-15",
+        updatedAt: "2025-05-15",
+        createdAt: "2025-05-15",
+        revisedAt: "2025-05-15",
+        thumbnail: { url: "", height: 100, width: 100 }
+    }
+];
+---
+
+<Layout
+    title="BLOG | MIRAIDO"
+    description="MIRAIDOの活動レポートやコラムをお届けします。"
+>
+    <!-- Full-screen Background Animation -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <DragonAnimation />
+    </div>
+
+    <main class="relative z-10 min-h-screen py-24 px-4 overflow-hidden">
+        <div class="container mx-auto max-w-6xl">
+            <!-- Header -->
+            <header class="text-center mb-20 opacity-0 animate-fade-in-up">
+                <h1
+                    class="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent mb-6"
+                >
+                    BLOG
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 font-light tracking-wide">
+                    活動レポート・コラム
+                </p>
+            </header>
+
+            <!-- Blogs Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {displayBlogs.map((blog, index) => {
+                    const categories = Array.isArray(blog.category) ? blog.category : blog.category ? [blog.category] : [];
+                    return (
+                    <a href={`/blogs/${blog.id}`} class={`block group h-full opacity-0 animate-fade-in-up delay-${(index % 5) * 100 + 200}`}>
+                        <article class="h-full flex flex-col bg-slate-900/60 rounded-xl overflow-hidden border border-white/5 hover:border-accent/40 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-accent/10">
+                            <!-- Image Area -->
+                            <div class="aspect-[16/10] bg-slate-800 relative overflow-hidden group-hover:brightness-110 transition-all">
+                                {blog.thumbnail ? (
+                                    <img src={blog.thumbnail.url} alt={blog.title} class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"/>
+                                ) : (
+                                    <div class="absolute inset-0 flex items-center justify-center text-5xl text-white/10 group-hover:text-white/20 transition-colors">
+                                        📝
+                                    </div>
+                                )}
+                                <div class="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors"></div>
+                            </div>
+                            
+                            <!-- Content Area -->
+                            <div class="p-6 flex-1 flex flex-col">
+                                <div class="flex items-center justify-between mb-4">
+                                     <time class="text-xs text-gray-400 font-mono" datetime={blog.publishedAt}>
+                                        {new Date(blog.publishedAt).toLocaleDateString("ja-JP")}
+                                    </time>
+                                    <div class="flex gap-1">
+                                        {categories.map((cat: any) => (
+                                            <span class="text-[10px] text-accent font-bold bg-accent/10 px-2 py-0.5 rounded tracking-wider">{cat.name}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <h2 class="text-lg font-bold text-white mb-3 group-hover:text-accent transition-colors leading-snug line-clamp-3">
+                                    {blog.title}
+                                </h2>
+                                <div class="mt-auto pt-4 text-right">
+                                    <span class="text-xs text-gray-500 group-hover:text-white transition-colors">READ MORE</span>
+                                </div>
+                            </div>
+                        </article>
+                    </a>
+                    );
+                })}
+            </div>
+
+            <!-- Footer Navigation -->
+            <div class="mt-20 text-center opacity-0 animate-fade-in-up delay-700">
+                <a
+                    href="/"
+                    class="inline-flex items-center text-gray-400 hover:text-white transition-colors gap-2 group"
+                >
+                    <span class="transform group-hover:-translate-x-1 transition-transform">←</span>
+                    TOPページに戻る
+                </a>
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script>
+    import { gsap } from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animations
+    const items = document.querySelectorAll(".animate-fade-in-up");
+    
+    if(items.length > 0) {
+        gsap.fromTo(items, 
+            {
+                y: 50,
+                opacity: 0,
+                scale: 0.95
+            },
+            {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                stagger: 0.1,
+                ease: "power4.out",
+                scrollTrigger: {
+                    trigger: ".container",
+                    start: "top 85%",
+                }
+            }
+        );
+    }
+</script>
+
+<style>
+
+</style>

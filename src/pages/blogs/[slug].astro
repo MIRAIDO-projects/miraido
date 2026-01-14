@@ -2,11 +2,20 @@
 import Layout from "../../layouts/Layout.astro";
 import DragonAnimation from "../../components/DragonAnimation.astro";
 import { getBlogs, getBlogDetail } from "../../lib/microcms";
-import type { Blog } from "../../types/microcms";
+import type { Blog, BlogBlock } from "../../types/microcms";
+
+// Components
+import CodeBlock from "../../components/blog/CodeBlock.astro";
+import BentoGrid from "../../components/blog/BentoGrid.astro";
+import TableOfContents from "../../components/blog/TableOfContents.astro";
+import AuthorBio from "../../components/blog/AuthorBio.astro";
+import RichText from "../../components/blog/RichText.astro";
 
 // Static Paths
 export async function getStaticPaths() {
-    const { contents: blogs } = await getBlogs();
+    const { contents: blogs } = await getBlogs({
+        filters: "targetSites[contains]miraido",
+    });
     const paths =
         blogs && blogs.length > 0
             ? blogs.map((item) => ({ params: { slug: item.id } }))
@@ -32,11 +41,80 @@ const displayBlog =
             { id: "c1", name: "理念" },
             { id: "c2", name: "教育" } as any,
         ],
+        // Fallback Content
         content:
             "<p>私たちは、子供たちが自らの可能性を信じ、未来を切り拓いていく力を育むことを目指しています。</p><h3>MIRAIDOの理念</h3><p>失敗を恐れずに挑戦すること、そして仲間と協力して課題を解決すること。これらの経験が、次世代のリーダーを育てます。</p>",
+
+        // Block System Mock (demonstration)
+        body: [
+            {
+                fieldId: "richText",
+                content:
+                    "<h2>はじめに</h2><p>MIRAIDOプロジェクトでは、最新のテクノロジーを活用した教育プログラムを提供しています。ここではその技術スタックの一部を紹介します。</p>",
+            },
+            {
+                fieldId: "codeBlock",
+                code: `// Example Astro Component
+---
+import Layout from '../layouts/Layout.astro';
+const { title } = Astro.props;
+---
+<h1>{title}</h1>`,
+                language: "astro",
+                fileName: "Title.astro",
+            },
+            {
+                fieldId: "richText",
+                content:
+                    "<h3>主な特徴</h3><p>子供たちが楽しみながら学べる工夫を随所に凝らしています。</p>",
+            },
+            {
+                fieldId: "bentoItem",
+                title: "Robotics",
+                desc: "実機を使ったプログラミング",
+                image: {
+                    url: "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80",
+                },
+                span: "2",
+            },
+            {
+                fieldId: "bentoItem",
+                title: "AI Learning",
+                desc: "AIとの対話で学ぶ",
+                image: {
+                    url: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80",
+                },
+                span: "1",
+            },
+            {
+                fieldId: "bentoItem",
+                title: "Community",
+                desc: "仲間と共に成長する場所",
+                image: {
+                    url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80",
+                },
+                span: "3",
+            },
+            {
+                fieldId: "richText",
+                content:
+                    "<h2>まとめ</h2><p>これからも、子供たちの未来のために私たちは挑戦し続けます。</p>",
+            },
+        ] as BlogBlock[],
+
         publishedAt: "2025-04-10",
         thumbnail: { url: "" },
-    } as Blog);
+        author: {
+            name: "MIRAIDO Admin",
+            role: "Project Manager",
+            bio: "MIRAIDOプロジェクトの運営担当。教育とテクノロジーの架け橋を目指しています。",
+            avatar: { url: "" }, // No image, uses fallback
+            sns: {
+                twitter: "https://twitter.com",
+                github: "https://github.com",
+            },
+        },
+    } as any); // Use any to bypass strict type check for mock structure if needed or define proper type
 ---
 
 <Layout
@@ -48,14 +126,16 @@ const displayBlog =
     </div>
 
     <main class="relative z-10 min-h-screen py-24 px-4">
-        <div class="container mx-auto max-w-3xl">
-            <!-- Header -->
-            <header class="mb-12 opacity-0 animate-fade-in-up text-center">
+        <div class="container mx-auto max-w-7xl">
+            {/* 1. Hero Section */}
+            <header
+                class="mb-16 md:mb-24 opacity-0 animate-fade-in-up text-center max-w-4xl mx-auto"
+            >
                 <div
-                    class="flex items-center justify-center gap-4 mb-6 text-sm md:text-base font-mono"
+                    class="flex items-center justify-center gap-4 mb-8 text-sm md:text-base font-mono"
                 >
                     <time
-                        class="text-accent/80"
+                        class="text-accent/80 font-bold bg-accent/10 px-3 py-1 rounded-full border border-accent/20"
                         datetime={displayBlog.publishedAt}
                     >
                         {
@@ -68,54 +148,125 @@ const displayBlog =
                         {
                             (Array.isArray(displayBlog.category)
                                 ? displayBlog.category
-                                : displayBlog.category
-                                  ? [displayBlog.category]
-                                  : []
+                                : []
                             ).map((cat: any) => (
-                                <span class="px-2 py-0.5 rounded text-xs border border-white/20 bg-white/5 text-gray-300">
+                                <span class="px-3 py-1 rounded-full text-xs border border-white/10 bg-white/5 text-gray-300 hover:bg-white/10 transition-colors">
                                     {cat.name}
                                 </span>
                             ))
                         }
                     </div>
                 </div>
+
                 <h1
-                    class="text-3xl md:text-5xl font-bold text-white leading-tight mb-8"
+                    class="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-12 tracking-tight"
                 >
                     {displayBlog.title}
                 </h1>
 
                 {
                     displayBlog.thumbnail ? (
-                        <div class="rounded-2xl overflow-hidden shadow-2xl shadow-accent/10 border border-white/10 aspect-[16/9]">
+                        <div class="rounded-3xl overflow-hidden shadow-2xl shadow-accent/10 border border-white/10 aspect-[21/9] relative group">
                             <img
                                 src={displayBlog.thumbnail.url}
                                 alt={displayBlog.title}
-                                class="w-full h-full object-cover"
+                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                             />
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60" />
                         </div>
                     ) : (
-                        <div class="rounded-2xl overflow-hidden shadow-2xl shadow-accent/10 border border-white/10 aspect-[16/9] bg-slate-800 flex items-center justify-center text-6xl text-white/10">
+                        <div class="rounded-3xl overflow-hidden shadow-2xl shadow-accent/10 border border-white/10 aspect-[21/9] bg-slate-800 flex items-center justify-center text-6xl text-white/10">
                             📝
                         </div>
                     )
                 }
             </header>
 
-            <!-- Content -->
-            <article
-                class="prose prose-invert prose-lg max-w-none opacity-0 animate-fade-in-up delay-200 bg-slate-900/40 p-8 md:p-12 rounded-2xl border border-white/5 backdrop-blur-sm"
-            >
-                <div set:html={displayBlog.content} />
-            </article>
+            <div class="flex flex-col lg:flex-row gap-12 relative">
+                {/* 2. Main Content (Block System) */}
+                <article
+                    class="flex-1 opacity-0 animate-fade-in-up delay-200 min-w-0"
+                >
+                    {
+                        displayBlog.body ? (
+                            /* Block Iterator with Grouping for Bento */
+                            (() => {
+                                const renderedBlocks = [];
+                                let bentoGroup: any[] = [];
 
-            <!-- Footer Navigation -->
+                                displayBlog.body.forEach(
+                                    (block: BlogBlock, index: number) => {
+                                        if (block.fieldId === "bentoItem") {
+                                            bentoGroup.push(block);
+                                        } else {
+                                            // Flush bento group if exists
+                                            if (bentoGroup.length > 0) {
+                                                renderedBlocks.push(
+                                                    <BentoGrid
+                                                        items={bentoGroup}
+                                                    />,
+                                                );
+                                                bentoGroup = [];
+                                            }
+
+                                            // Render individual blocks
+                                            if (block.fieldId === "richText") {
+                                                renderedBlocks.push(
+                                                    <RichText
+                                                        content={block.content}
+                                                    />,
+                                                );
+                                            } else if (
+                                                block.fieldId === "codeBlock"
+                                            ) {
+                                                renderedBlocks.push(
+                                                    <CodeBlock
+                                                        code={block.code}
+                                                        language={
+                                                            block.language
+                                                        }
+                                                        fileName={
+                                                            block.fileName
+                                                        }
+                                                    />,
+                                                );
+                                            }
+                                        }
+                                    },
+                                );
+
+                                // Flush remaining bento group
+                                if (bentoGroup.length > 0) {
+                                    renderedBlocks.push(
+                                        <BentoGrid items={bentoGroup} />,
+                                    );
+                                }
+
+                                return renderedBlocks;
+                            })()
+                        ) : (
+                            /* Legacy Fallback */
+                            <RichText content={displayBlog.content} />
+                        )
+                    }
+
+                    {/* 4. Author Bio */}
+                    <AuthorBio author={displayBlog.author} />
+                </article>
+
+                {/* 3. Sticky Sidebar (TOC) */}
+                <aside class="hidden lg:block w-80 shrink-0 relative">
+                    <TableOfContents />
+                </aside>
+            </div>
+
+            {/* Footer Navigation */}
             <div
-                class="mt-20 text-center opacity-0 animate-fade-in-up delay-500"
+                class="mt-32 text-center opacity-0 animate-fade-in-up delay-500 border-t border-white/10 pt-12"
             >
                 <a
                     href="/blogs"
-                    class="inline-flex items-center px-8 py-3 rounded-full border border-white/20 hover:bg-white/10 transition-colors text-sm font-bold tracking-widest gap-2 group"
+                    class="inline-flex items-center px-8 py-3 rounded-full border border-white/20 hover:bg-white/10 transition-all duration-300 text-sm font-bold tracking-widest gap-2 group hover:scale-105 hover:border-accent/50"
                 >
                     <span
                         class="transform group-hover:-translate-x-1 transition-transform"
@@ -146,11 +297,5 @@ const displayBlog =
     .animate-fade-in-up {
         transform: translateY(2rem);
         opacity: 0;
-    }
-    :global(.prose h2) {
-        color: #0ea5e9;
-        border-left: 4px solid #0ea5e9;
-        padding-left: 1rem;
-        margin-top: 3rem;
     }
 </style>

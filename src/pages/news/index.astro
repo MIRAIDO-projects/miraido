@@ -5,14 +5,14 @@ import { getNews } from "../../lib/microcms";
 import type { News } from "../../types/microcms";
 
 // Fetch news from microCMS
-const { contents: news } = await getNews();
+const { contents: news } = await getNews({ filters: "targetSites[contains]miraido" });
 
 // Mock Data if API key is missing or no content
 const displayNews: News[] = news.length > 0 ? news : [
     {
         id: "1",
         Title: "MIRAIDOプロジェクト始動！",
-        category: { id: "info", name: "お知らせ" },
+        category: { id: "info", name: "お知らせ" } as any,
         content: "",
         publishedAt: "2025-04-01",
         updatedAt: "2025-04-01",
@@ -22,7 +22,7 @@ const displayNews: News[] = news.length > 0 ? news : [
     {
         id: "2",
         Title: "第1回 ロボットプログラミング体験会開催決定",
-        category: { id: "event", name: "イベント" },
+        category: { id: "event", name: "イベント" } as any,
         content: "",
         publishedAt: "2025-04-15",
         updatedAt: "2025-04-15",
@@ -32,7 +32,7 @@ const displayNews: News[] = news.length > 0 ? news : [
     {
         id: "3",
         Title: "スポンサー募集を開始しました",
-        category: { id: "info", name: "お知らせ" },
+        category: { id: "info", name: "お知らせ" } as any,
         content: "",
         publishedAt: "2025-05-01",
         updatedAt: "2025-05-01",
@@ -42,7 +42,7 @@ const displayNews: News[] = news.length > 0 ? news : [
     {
         id: "4",
         Title: "Webサイトをリニューアルしました",
-        category: { id: "update", name: "更新情報" },
+        category: { id: "update", name: "更新情報" } as any,
         content: "",
         publishedAt: "2025-05-10",
         updatedAt: "2025-05-10",

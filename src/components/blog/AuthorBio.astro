@@ -1,0 +1,149 @@
+---
+import type { MicroCmsImage } from "../../types/microcms";
+
+interface Props {
+    author?: {
+        name: string;
+        role: string;
+        bio: string;
+        avatar?: MicroCmsImage;
+        sns?: {
+            twitter?: string;
+            github?: string;
+            zenn?: string;
+        };
+    };
+}
+
+const { author } = Astro.props;
+
+// Default author if none provided (Mock)
+const displayAuthor = author || {
+    name: "Tech Writer",
+    role: "Lead Engineer",
+    bio: "最新技術を追いかけるエンジニア。AstroとTailwindCSSが好き。",
+    avatar: { url: "" },
+    sns: {
+        twitter: "https://twitter.com",
+        github: "https://github.com",
+        zenn: "https://zenn.dev",
+    },
+};
+---
+
+<div
+    class="mt-20 p-8 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 flex flex-col md:flex-row gap-6 items-center text-center md:text-left"
+>
+    {/* Avatar */}
+    <div
+        class="relative w-24 h-24 shrink-0 rounded-full overflow-hidden border-2 border-accent/50 shadow-lg shadow-accent/20"
+    >
+        {
+            displayAuthor.avatar?.url ? (
+                <img
+                    src={displayAuthor.avatar.url}
+                    alt={displayAuthor.name}
+                    class="w-full h-full object-cover"
+                />
+            ) : (
+                <div class="w-full h-full bg-slate-800 flex items-center justify-center text-3xl">
+                    👨‍💻
+                </div>
+            )
+        }
+    </div>
+
+    {/* Info */}
+    <div class="flex-1">
+        <div class="mb-2">
+            <span
+                class="text-accent text-xs font-bold tracking-widest uppercase mb-1 block"
+                >{displayAuthor.role}</span
+            >
+            <h3 class="text-xl font-bold text-white">{displayAuthor.name}</h3>
+        </div>
+        <p class="text-gray-300 text-sm leading-relaxed mb-4">
+            {displayAuthor.bio}
+        </p>
+
+        {/* Social Links */}
+        <div class="flex items-center justify-center md:justify-start gap-4">
+            {
+                displayAuthor.sns?.twitter && (
+                    <a
+                        href={displayAuthor.sns.twitter}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-[#1DA1F2] transition-colors"
+                    >
+                        <span class="sr-only">Twitter</span>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+                        </svg>
+                    </a>
+                )
+            }
+            {
+                displayAuthor.sns?.github && (
+                    <a
+                        href={displayAuthor.sns.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-white transition-colors"
+                    >
+                        <span class="sr-only">GitHub</span>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+                        </svg>
+                    </a>
+                )
+            }
+            {
+                displayAuthor.sns?.zenn && (
+                    <a
+                        href={displayAuthor.sns.zenn}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-gray-400 hover:text-[#3EA8FF] transition-colors"
+                    >
+                        <span class="sr-only">Zenn</span>
+                        {/* Simple Zenn-like icon */}
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="20"
+                            height="20"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M4 20h16L4 4h16" />
+                        </svg>
+                    </a>
+                )
+            }
+        </div>
+    </div>
+</div>

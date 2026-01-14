@@ -49,15 +49,34 @@ const { title, description, type, image, publishedAt } = Astro.props;
 
 <script>
 	import Lenis from "lenis";
+	import { gsap } from "gsap";
+	import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-	const lenis = new Lenis();
+	// Initialize Lenis
+	const lenis = new Lenis({
+		duration: 1.2,
+		easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+		orientation: "vertical",
+		gestureOrientation: "vertical",
+		smoothWheel: true,
+	});
 
-	function raf(time: number) {
-		lenis.raf(time);
-		requestAnimationFrame(raf);
-	}
+	// Connect Lenis to GSAP ScrollTrigger
+	gsap.registerPlugin(ScrollTrigger);
 
-	requestAnimationFrame(raf);
+	lenis.on("scroll", ScrollTrigger.update);
+
+	gsap.ticker.add((time) => {
+		lenis.raf(time * 1000);
+	});
+
+	gsap.ticker.lagSmoothing(0);
+
+	// Optional: Expose lenis instance globally if needed for other scripts
+	(window as any).lenis = lenis;
+
+	// Add 'lenis' class to html for CSS targeting
+	document.documentElement.classList.add("lenis");
 </script>
 
 <style>

@@ -5,7 +5,7 @@ import { getBlogs } from "../../lib/microcms";
 import type { Blog } from "../../types/microcms";
 
 // Fetch blogs from microCMS
-const { contents: blogs } = await getBlogs();
+const { contents: blogs } = await getBlogs({ filters: "targetSites[contains]miraido" });
 
 // Mock Data if API key is missing or no content
 const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [

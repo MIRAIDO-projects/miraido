@@ -1,0 +1,107 @@
+---
+
+---
+
+<nav class="toc-container sticky top-32 hidden lg:block w-64 shrink-0 mt-8">
+    <div
+        class="bg-slate-900/40 backdrop-blur-md rounded-xl p-6 border border-white/5"
+    >
+        <h4
+            class="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2"
+        >
+            <span class="w-1 h-4 bg-accent rounded-full"></span>
+            目次
+        </h4>
+        <ul id="toc-list" class="space-y-1 text-sm">
+            {
+                /* TOC items will be injected via JS or passed as slots/props depending on implementation. 
+                For now, we'll assume a client-side generation from the article content. */
+            }
+        </ul>
+    </div>
+</nav>
+
+<script>
+    function generateTOC() {
+        // Assume article content is wrapped in a container with class 'prose-content'
+        const articleContent = document.querySelector(".prose-content");
+        if (!articleContent) return;
+
+        const headings = articleContent.querySelectorAll("h2, h3");
+        const tocList = document.getElementById("toc-list");
+
+        if (!tocList || headings.length === 0) {
+            const container = document.querySelector(".toc-container");
+            if (container) (container as HTMLElement).style.display = "none";
+            return;
+        }
+
+        headings.forEach((heading, index) => {
+            const id = heading.id || `heading-${index}`;
+            heading.id = id;
+
+            const li = document.createElement("li");
+            const a = document.createElement("a");
+
+            a.href = `#${id}`;
+            a.textContent = heading.textContent;
+            a.className = `block py-1.5 px-3 rounded-lg transition-colors border-l-2 border-transparent hover:bg-white/5 hover:text-accent ${
+                heading.tagName === "H3"
+                    ? "ml-4 text-xs text-gray-400"
+                    : "text-gray-300 font-medium"
+            }`;
+
+            // Allow active state styling toggling
+            a.dataset.targetId = id;
+
+            li.appendChild(a);
+            tocList.appendChild(li);
+        });
+
+        // Intersection Observer for Active State
+        const observerOptions = {
+            root: null,
+            rootMargin: "-10% 0px -60% 0px", // Highlight when near top
+            threshold: 0,
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                const id = entry.target.id;
+                const link = tocList.querySelector(`a[data-target-id="${id}"]`);
+
+                if (entry.isIntersecting) {
+                    // Remove active from all
+                    tocList.querySelectorAll("a").forEach((l) => {
+                        l.classList.remove(
+                            "border-accent",
+                            "text-accent",
+                            "bg-accent/5",
+                        );
+                        l.classList.add("border-transparent");
+                    });
+
+                    // Add active to current
+                    if (link) {
+                        link.classList.remove(
+                            "border-transparent",
+                            "text-gray-300",
+                            "text-gray-400",
+                        );
+                        link.classList.add(
+                            "border-accent",
+                            "text-accent",
+                            "bg-accent/5",
+                        );
+                    }
+                }
+            });
+        }, observerOptions);
+
+        headings.forEach((h) => observer.observe(h));
+    }
+
+    // Run on load
+    generateTOC();
+    document.addEventListener("astro:page-load", generateTOC);
+</script>

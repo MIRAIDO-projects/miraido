@@ -1,0 +1,108 @@
+---
+interface Props {
+    content: string;
+}
+
+const { content } = Astro.props;
+---
+
+<div class="prose-content prose prose-lg prose-invert max-w-none">
+    <div set:html={content} />
+</div>
+
+<style is:global>
+    /* Custom Prose Styles for Miraido Theme using Tailwind 4 arbitrary values or theme tokens if available. 
+     Using standard css for fine control over typography. */
+
+    .prose-content {
+        color: #cbd5e1; /* slate-300 */
+        line-height: 1.8;
+    }
+
+    /* Headings */
+    .prose-content h2 {
+        font-size: 1.875rem; /* 30px */
+        line-height: 2.25rem;
+        font-weight: 700;
+        color: #fff;
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #334155; /* slate-700 */
+        position: relative;
+    }
+
+    .prose-content h2::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 60px;
+        height: 2px;
+        background: #0ea5e9; /* sky-500 (accent) */
+    }
+
+    .prose-content h3 {
+        font-size: 1.5rem; /* 24px */
+        font-weight: 700;
+        color: #e2e8f0; /* slate-200 */
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        border-left: 4px solid #0ea5e9;
+        padding-left: 1rem;
+    }
+
+    /* Text Elements */
+    .prose-content p {
+        margin-bottom: 1.5rem;
+    }
+
+    .prose-content strong {
+        color: #fff;
+        font-weight: 700;
+    }
+
+    .prose-content a {
+        color: #38bdf8; /* sky-400 */
+        text-decoration: none;
+        border-bottom: 1px dashed #38bdf8;
+        transition: all 0.2s;
+    }
+
+    .prose-content a:hover {
+        color: #7dd3fc; /* sky-300 */
+        border-bottom-style: solid;
+    }
+
+    /* Lists */
+    .prose-content ul {
+        list-style-type: disc;
+        padding-left: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .prose-content li::marker {
+        color: #0ea5e9;
+    }
+
+    /* Code within text */
+    .prose-content :not(pre) > code {
+        background-color: #1e293b; /* slate-800 */
+        color: #e2e8f0;
+        padding: 0.2em 0.4em;
+        border-radius: 0.3em;
+        font-size: 0.9em;
+        font-family:
+            ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        border: 1px solid #334155;
+    }
+
+    /* Blockquotes */
+    .prose-content blockquote {
+        font-style: italic;
+        border-left: 4px solid #475569; /* slate-600 */
+        padding-left: 1rem;
+        color: #94a3b8; /* slate-400 */
+        margin: 1.5rem 0;
+    }
+</style>

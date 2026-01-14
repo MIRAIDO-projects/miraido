@@ -36,6 +36,7 @@
         </defs>
 
         <!-- The Winding Path -->
+        <!-- Will-change added for stroke animation -->
         <path
             id="dragonPath"
             d=""
@@ -44,10 +45,18 @@
             stroke-width="4"
             stroke-linecap="round"
             class="beam-line"
-            filter="url(#glow)"></path>
+            filter="url(#glow)"
+            style="will-change: stroke-dashoffset, d, opacity;"></path>
 
         <!-- The "Dragon Head" -->
-        <circle id="dragonHead" r="6" fill="#ffffff" filter="url(#glow)">
+        <!-- Will-change added for transform -->
+        <circle
+            id="dragonHead"
+            r="6"
+            fill="#ffffff"
+            filter="url(#glow)"
+            style="will-change: transform;"
+        >
         </circle>
     </svg>
 </div>

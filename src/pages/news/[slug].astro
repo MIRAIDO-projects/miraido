@@ -6,7 +6,9 @@ import type { News } from "../../types/microcms";
 
 // Static Paths for SSG
 export async function getStaticPaths() {
-    const { contents: news } = await getNews();
+    const { contents: news } = await getNews({
+        filters: "targetSites[contains]miraido",
+    });
     // Fallback for development if API returns empty
     const paths =
         news && news.length > 0

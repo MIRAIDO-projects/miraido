@@ -11,11 +11,31 @@
     background-color: var(--color-background);
     color: var(--color-text);
     font-family: 'Inter', sans-serif;
-    /* Setup in Layout or Head if needed, or rely on system fonts */
-    scroll-behavior: smooth;
 }
 
 body {
     margin: 0;
     overflow-x: hidden;
+}
+
+/* Lenis Recommended Styles */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+    pointer-events: none;
 }

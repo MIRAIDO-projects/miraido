@@ -1,4 +1,4 @@
-import { createClient } from "microcms-js-sdk";
+import { createClient, type MicroCMSQueries } from "microcms-js-sdk";
 import type { Project, Blog, News, Sponsor } from "../types/microcms";
 
 const client = createClient({
@@ -17,9 +17,9 @@ export const getProjects = async () => {
     }
 };
 
-export const getBlogs = async () => {
+export const getBlogs = async (queries?: MicroCMSQueries) => {
     try {
-        const response = await client.getList<Blog>({ endpoint: "blogs" });
+        const response = await client.getList<Blog>({ endpoint: "blogs", queries });
         console.log(`\x1b[32m[MicroCMS] SUCCESS: Fetched ${response.contents.length} blogs.\x1b[0m`);
         return response;
     } catch (error) {
@@ -28,9 +28,9 @@ export const getBlogs = async () => {
     }
 };
 
-export const getNews = async () => {
+export const getNews = async (queries?: MicroCMSQueries) => {
     try {
-        const response = await client.getList<News>({ endpoint: "news" });
+        const response = await client.getList<News>({ endpoint: "news", queries });
         console.log(`\x1b[32m[MicroCMS] SUCCESS: Fetched ${response.contents.length} news items.\x1b[0m`);
         return response;
     } catch (error) {

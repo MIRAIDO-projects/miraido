@@ -16,12 +16,29 @@ export interface Category extends MicroCmsDate {
     name: string;
 }
 
+export type BlogBlock =
+    | { fieldId: "richText"; content: string }
+    | { fieldId: "codeBlock"; code: string; language: string; fileName?: string }
+    | { fieldId: "bentoItem"; title: string; desc: string; image: MicroCmsImage; span?: "1" | "2" | "3" };
+
 export interface Blog extends MicroCmsDate {
     id: string;
     title: string;
-    content: string;
+    content: string; // Keep for fallback
+    body?: BlogBlock[]; // New Block System
     category: Category[];
     thumbnail?: MicroCmsImage;
+    author?: { // Optional Author field
+        name: string;
+        role: string;
+        bio: string;
+        avatar?: MicroCmsImage;
+        sns?: {
+            twitter?: string;
+            github?: string;
+            zenn?: string;
+        };
+    };
 }
 
 

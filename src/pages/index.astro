@@ -7,8 +7,8 @@ import type { Project, Blog, News, Sponsor } from "../types/microcms";
 
 // Fetch data from microCMS
 const { contents: projects } = await getProjects();
-const { contents: blogs } = await getBlogs();
-const { contents: news } = await getNews();
+const { contents: blogs } = await getBlogs({ filters: "targetSites[contains]miraido" });
+const { contents: news } = await getNews({ filters: "targetSites[contains]miraido" });
 const { contents: sponsors } = await getSponsors();
 
 // Mock Data: Projects
@@ -49,8 +49,8 @@ const displayProjects: Project[] = projects.length > 0 ? projects : [
 const displayNews: News[] = news.length > 0 ? news : [
     {
         id: "1",
-        title: "MIRAIDOプロジェクト始動！",
-        category: { id: "info", name: "お知らせ" },
+        Title: "MIRAIDOプロジェクト始動！",
+        category: { id: "info", name: "お知らせ" } as any,
         content: "",
         publishedAt: "2025-04-01",
         updatedAt: "2025-04-01",
@@ -59,8 +59,8 @@ const displayNews: News[] = news.length > 0 ? news : [
     },
     {
         id: "2",
-        title: "第1回 ロボットプログラミング体験会開催決定",
-        category: { id: "event", name: "イベント" },
+        Title: "第1回 ロボットプログラミング体験会開催決定",
+        category: { id: "event", name: "イベント" } as any,
         content: "",
         publishedAt: "2025-04-15",
         updatedAt: "2025-04-15",
@@ -69,8 +69,8 @@ const displayNews: News[] = news.length > 0 ? news : [
     },
     {
         id: "3",
-        title: "スポンサー募集を開始しました",
-        category: { id: "info", name: "お知らせ" },
+        Title: "スポンサー募集を開始しました",
+        category: { id: "info", name: "お知らせ" } as any,
         content: "",
         publishedAt: "2025-05-01",
         updatedAt: "2025-05-01",
@@ -84,7 +84,7 @@ const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
     {
         id: "1",
         title: "子供たちの「未来への扉」を開くために",
-        category: ["理念", "教育"],
+        category: [{ id: "c1", name: "理念" }, { id: "c2", name: "教育" }] as any[],
         content: "",
         publishedAt: "2025-04-10",
         updatedAt: "2025-04-10",
@@ -95,7 +95,7 @@ const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
     {
         id: "2",
         title: "熊野古道と最新テクノロジーの融合",
-        category: ["テクノロジー", "地域"],
+        category: [{ id: "c3", name: "テクノロジー" }, { id: "c4", name: "地域" }] as any[],
         content: "",
         publishedAt: "2025-04-20",
         updatedAt: "2025-04-20",
@@ -106,7 +106,7 @@ const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
      {
         id: "3",
         title: "ロボット大会レポート：熱き戦いの記録",
-        category: ["レポート", "イベント"],
+        category: [{ id: "c5", name: "レポート" }, { id: "c6", name: "イベント" }] as any[],
         content: "",
         publishedAt: "2025-05-05",
         updatedAt: "2025-05-05",
@@ -463,7 +463,7 @@ const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
                 <div class="max-w-4xl mx-auto text-center">
                     <div class="opacity-0 sponsor-header">
                         <h2 class="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent mb-6">
-                            SPONSOR"0"
+                            Sponsor "0"
                         </h2>
                         <p class="text-xl text-gray-300 font-light mb-12">
                             未来を創るパートナーとして。<br class="md:hidden" />
@@ -471,22 +471,37 @@ const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
                         </p>
                     </div>
 
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16 opacity-0 sponsor-logos">
-                        <!-- Mock Logos / Placeholders -->
-                    <div class="flex flex-wrap justify-center gap-8 mb-16 sponsor-logos">
+                    <div class="flex flex-wrap justify-center items-center gap-8 mb-16 opacity-0 sponsor-logos">
                         {sponsors.length > 0 ? (
                             sponsors.map((sponsor) => {
-                                // Determine tier color
+                                // Determine tier styles
                                 const tier = sponsor.type && sponsor.type.length > 0 ? sponsor.type[0] : null;
+                                
                                 let badgeClass = "bg-slate-700 text-white";
-                                if (tier === "Platinum") badgeClass = "bg-gradient-to-r from-cyan-400 to-blue-500 text-white";
-                                else if (tier === "Gold") badgeClass = "bg-yellow-500 text-black";
-                                else if (tier === "Silver") badgeClass = "bg-gray-400 text-black";
-                                else if (tier === "Personal") badgeClass = "bg-emerald-500 text-white";
+                                let sizeClass = "w-64"; // Default
+                                let fontSize = "text-base";
+
+                                if (tier === "Platinum") {
+                                    badgeClass = "bg-gradient-to-r from-cyan-400 to-blue-500 text-white";
+                                    sizeClass = "w-80 md:w-96 shadow-cyan-500/20"; // Largest
+                                    fontSize = "text-xl";
+                                } else if (tier === "Gold") {
+                                    badgeClass = "bg-yellow-500 text-black";
+                                    sizeClass = "w-72 md:w-80 shadow-yellow-500/20"; // Med-Large
+                                    fontSize = "text-lg";
+                                } else if (tier === "Silver") {
+                                    badgeClass = "bg-gray-400 text-black";
+                                    sizeClass = "w-56 md:w-64"; // Medium
+                                    fontSize = "text-base";
+                                } else if (tier === "Personal") {
+                                    badgeClass = "bg-emerald-500 text-white";
+                                    sizeClass = "w-40 md:w-48"; // Small
+                                    fontSize = "text-sm";
+                                }
 
                                 return (
                                 <a href={sponsor.url || "#"} target={sponsor.url ? "_blank" : "_self"} rel={sponsor.url ? "noopener noreferrer" : ""} class="block group relative">
-                                    <div class="w-64 aspect-video bg-slate-800 rounded-xl border border-white/10 flex items-center justify-center hover:bg-slate-700 transition-colors p-2 relative overflow-hidden shadow-lg">
+                                    <div class={`${sizeClass} aspect-video bg-slate-800 rounded-xl border border-white/10 flex items-center justify-center hover:bg-slate-700 transition-all duration-300 p-4 relative overflow-hidden shadow-lg transform group-hover:-translate-y-1`}>
                                         {tier && (
                                             <span class={`absolute top-2 left-2 text-[10px] font-bold px-2 py-0.5 rounded-full z-10 shadow-sm ${badgeClass}`}>
                                                 {tier}
@@ -495,7 +510,7 @@ const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
                                         {sponsor.logo ? (
                                              <img src={sponsor.logo.url} alt={sponsor.name} class="w-full h-full object-contain transition-all duration-300 transform group-hover:scale-105" />
                                         ) : (
-                                            <span class="text-white font-bold tracking-widest">{sponsor.name}</span>
+                                            <span class={`text-white font-bold tracking-widest ${fontSize} opacity-80 group-hover:opacity-100`}>{sponsor.name}</span>
                                         )}
                                     </div>
                                 </a>
@@ -510,10 +525,9 @@ const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
                             ))
                         )}
                     </div>
-                    </div>
 
                     <div class="opacity-0 sponsor-cta">
-                        <a href="/contact/sponsor" class="inline-block px-12 py-4 bg-transparent border border-accent text-accent font-bold rounded-full hover:bg-accent hover:text-primary transition-all duration-300 shadow-[0_0_20px_rgba(14,165,233,0.1)] hover:shadow-[0_0_30px_rgba(14,165,233,0.4)]">
+                        <a href="/sponsor" class="inline-block px-12 py-4 bg-transparent border border-accent text-accent font-bold rounded-full hover:bg-accent hover:text-primary transition-all duration-300 shadow-[0_0_20px_rgba(14,165,233,0.1)] hover:shadow-[0_0_30px_rgba(14,165,233,0.4)]">
                             PARTNERSHIP
                         </a>
                         <p class="mt-4 text-sm text-gray-500">協賛について詳しく見る</p>

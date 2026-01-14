@@ -148,16 +148,16 @@ const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
 				class="absolute inset-0 z-0 flex items-start justify-center pt-10 pointer-events-none select-none overflow-hidden"
 			>
 				<div
-					class="vertical-text-container relative w-full h-full flex items-start justify-center"
+					class="vertical-text-container relative w-full h-full flex items-start justify-center pt-12 md:pt-32"
 				>
 					<div
-						class="vertical-text kodo absolute text-[30vw] md:text-[35vw] font-black leading-none opacity-0"
+						class="vertical-text kodo absolute text-[30vw] md:text-[35vw] font-black leading-none opacity-0 top-10 md:top-20"
 						style="writing-mode: vertical-rl; text-orientation: upright; font-family: 'Zen Old Mincho', serif;"
 					>
 						古道
 					</div>
 					<div
-						class="vertical-text miraido absolute text-[30vw] md:text-[35vw] font-black leading-none opacity-0"
+						class="vertical-text miraido absolute text-[30vw] md:text-[35vw] font-black leading-none opacity-0 top-10 md:top-20"
 						style="writing-mode: vertical-rl; text-orientation: upright; font-family: 'Zen Old Mincho', serif;"
 					>
 						未来道
@@ -769,7 +769,7 @@ const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
 	textTl
 		.to(".kodo", {
 			duration: 2,
-			opacity: 0.12, // 88% Transparency
+			opacity: 0.25, // Increased from 0.12 for better visibility
 			color: "#d74a39", // Traditional Vermilion (Shu-iro)
 			scale: 1,
 			filter: "blur(0px)",
@@ -792,7 +792,7 @@ const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
 			".miraido",
 			{
 				duration: 2,
-				opacity: 0.12, // 88% Transparency
+				opacity: 0.25, // Increased from 0.12
 				scale: 1,
 				filter: "blur(0px)",
 				ease: "power2.out",

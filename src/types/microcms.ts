@@ -67,6 +67,7 @@ export interface ProjectResponse {
     mainImage?: MicroCmsImage;
     url?: string;
     category: Category[];
+    status?: string[] | string; // e.g. ["Ongoing"] or "Ongoing"
 }
 
 export type Endpoints = {

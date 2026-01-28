@@ -22,6 +22,7 @@ const displayProjects: Project[] = projects.length > 0 ? projects : [
         createdAt: "2025-01-01",
         revisedAt: "2025-01-01",
         category: { id: "c1", name: "教育" } as any,
+        status: ["Now Building"],
     },
     {
         id: "2",
@@ -32,6 +33,7 @@ const displayProjects: Project[] = projects.length > 0 ? projects : [
         createdAt: "2025-01-02",
         revisedAt: "2025-01-02",
         category: { id: "c2", name: "イノベーション" } as any,
+        status: ["In Progress"],
     },
     {
         id: "3",
@@ -42,6 +44,7 @@ const displayProjects: Project[] = projects.length > 0 ? projects : [
         createdAt: "2025-01-03",
         revisedAt: "2025-01-03",
         category: { id: "c3", name: "文化" } as any,
+        status: ["Completed"],
     }
 ];
 
@@ -351,7 +354,7 @@ const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
                     <h2 class="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-400 to-accent mb-4">
                         PROJECTS
                     </h2>
-                    <p class="text-gray-400">現在進行中のプロジェクト</p>
+                    <p class="text-gray-400">MIRAIDOプロジェクト</p>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -368,13 +371,38 @@ const displayBlogs: Blog[] = blogs.length > 0 ? blogs : [
                                 )}
                                 <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent opacity-60"></div>
                                 {/* Category Badges */}
-                                <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+                                <div class="absolute top-4 left-4 flex flex-wrap gap-2 z-20">
                                      {(Array.isArray(project.category) ? project.category : project.category ? [project.category] : []).map((cat: any) => (
-                                        <span class="bg-white/90 backdrop-blur-sm text-slate-900 text-xs px-3 py-1 rounded-full border border-white/20 font-bold shadow-sm">
+                                        <span class="bg-black/50 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full border border-white/10 font-bold shadow-sm">
                                             {cat.name}
                                         </span>
                                     ))}
                                 </div>
+                                
+                                {/* Status Badge */}
+                                {project.status && (
+                                    <div class="absolute top-4 right-4 z-20">
+                                        {(Array.isArray(project.status) ? project.status : [project.status]).map((st: string) => {
+                                            const isCompleted = st === "Completed" || st === "Archived";
+                                            return (
+                                                <span class={`
+                                                    flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-lg backdrop-blur-md border
+                                                    ${isCompleted 
+                                                        ? 'bg-slate-800/90 text-slate-400 border-slate-600' 
+                                                        : 'bg-emerald-500/90 text-white border-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.5)]'}
+                                                `}>
+                                                    {!isCompleted && (
+                                                        <span class="relative flex h-2 w-2">
+                                                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                                          <span class="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                                                        </span>
+                                                    )}
+                                                    {st}
+                                                </span>
+                                            );
+                                        })}
+                                    </div>
+                                )}
                             </div>
                             
                             <div class="p-6 relative z-10 flex flex-col h-full text-left">

@@ -1,5 +1,8 @@
 ---
+import { getSponsors } from "../lib/microcms";
+import type { Sponsor } from "../types/microcms";
 
+const { contents: sponsors } = await getSponsors();
 ---
 
 <footer
@@ -46,6 +49,52 @@
     </div>
 
     <div class="container mx-auto px-4 relative z-10">
+        <!-- Honorary Global Sponsors -->
+        <div class="mb-16 text-center">
+            <h3
+                class="text-lg font-bold text-teal-400 tracking-widest mb-4 uppercase"
+            >
+                名誉スポンサー"0"
+            </h3>
+            <p class="text-gray-400 text-sm mb-8">
+                Miraido #1
+                より支援してくださった企業・個人に敬意を表して掲載いたします。
+            </p>
+            <div class="flex flex-wrap justify-center gap-6 pb-4">
+                {
+                    sponsors.length > 0 ? (
+                        sponsors.map((sponsor) => (
+                            <a
+                                href={sponsor.url || "#"}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="block w-64 h-64 bg-slate-900/50 border border-white/10 rounded-xl hover:border-teal-400/50 transition-all group relative overflow-hidden flex items-center justify-center hover:shadow-[0_0_20px_rgba(45,212,191,0.2)]"
+                            >
+                                {sponsor.logo ? (
+                                    <img
+                                        src={sponsor.logo.url}
+                                        alt={sponsor.name}
+                                        width={256}
+                                        height={256}
+                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    />
+                                ) : (
+                                    <span class="text-gray-600 text-sm font-mono group-hover:text-teal-400/70 transition-colors p-4 text-center">
+                                        {sponsor.name}
+                                        <br />
+                                    </span>
+                                )}
+                            </a>
+                        ))
+                    ) : (
+                        <div class="col-span-full py-8 text-gray-500">
+                            スポンサー募集中
+                        </div>
+                    )
+                }
+            </div>
+        </div>
+
         <div
             class="flex flex-col md:flex-row items-center justify-between gap-8 mb-12"
         >

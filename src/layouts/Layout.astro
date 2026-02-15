@@ -2,6 +2,7 @@
 import Seo from "../components/Seo.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import CookieHud from "../components/ui/CookieHud.astro";
 import "../styles/global.css";
 
 interface Props {
@@ -44,6 +45,7 @@ const { title, description, type, image, publishedAt } = Astro.props;
 		</div>
 		<slot />
 		<Footer />
+		<CookieHud />
 	</body>
 </html>
 
